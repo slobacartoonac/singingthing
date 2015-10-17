@@ -73,8 +73,25 @@ def quit_(root, process):
    play_move.end()
    root.destroy()
 
+def camProperties():
 
+        try:
+                f=open("settings.txt")
+                print 'file opened'
+                var=f.readlines()
+                print 'lines read'
+                x=float((var[0][:-1]))
+                print 'var added'
+                y=float((var[1][:-1]))
+                hc=float((var[2][:-1]))
+                dc=float((var[3][:-1]))
+                print 'close'
+                f.close()
+                return (x*math.pi/180, y*math.pi/180, hc, dc)
 
+        except:
+                print sys.exc_info()[0]
+                return (3.14/4, 3.14/5, 10, 10)
 
 
 
@@ -139,10 +156,12 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = 0
+   source = "fortest2.avi"
    
    h, w = getVideoSize(source)
-   ccam=projection.cammera(w,h,3.14/4,3.14/5)
+   camSet=camProperties()
+   ccam=projection.cammera(w,h,camSet[0],camSet[1])
+   ccam.set_position(camSet[2], camSet[3])
    
    print h
    print w
@@ -153,7 +172,7 @@ if __name__ == '__main__':
    root = tk.Tk()
    print 'GUI initialized...'
    var1=IntVar()
-   var1.set('1')
+   var1.set('3')
    volume = IntVar()
    volume.set('0')
    frame= Frame(root, height=500, width=900)

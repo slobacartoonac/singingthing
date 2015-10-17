@@ -40,7 +40,7 @@ def updateMotion(inn):
             buf.append(inn)
         else:
             middle=True
-        while len(buf)>6:
+        while len(buf)>3:
             buf.pop(0)
         if(len(buf)<3):
             return
@@ -60,7 +60,7 @@ def updateMotion(inn):
         dist=distance(s1,s2)
         #print "d"
        # print "distance/time: ",dist, time
-        updateSound(dist,time)
+        updateSound(dist,time/7.0)
     
 def motionE(event):
     x, y = event.x, event.y
