@@ -42,7 +42,10 @@ def getProcMet(var, input,ccam):
         #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
-                 play_move.motion(output[1],ccam)
+                 fff=play_move.motion(output[1],ccam)
+                 if(fff):
+                         print "set F: "+ str(fff)
+                 print output[1]
                  return output[0]
         elif v == 2:
                 output=haarcascades.haarcascades(input, 1, debug)
@@ -50,7 +53,9 @@ def getProcMet(var, input,ccam):
         elif v == 3:
                 output=bgSubtraction.bgSubtraction(input, (), debug)
                 #print "bilopre"
-                play_move.motion(output[1],ccam)
+                fff=play_move.motion(output[1],ccam)
+                if fff:
+                        print "set F: "+ str(fff)
                 #print "bilosta"
                 #if(output[1]==(0,0)):
                 #        print "ne sviraj majke ti ga"
