@@ -137,7 +137,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = 'fortest2.avi'
+   source = 0
    
    h, w = getVideoSize(source)
    ccam=projection.cammera(w,h,3.14/4,3.14/5)
@@ -146,7 +146,7 @@ if __name__ == '__main__':
    print w
    global runTk
    runTk = 1
-   queue = Queue.Queue()
+   queue = Queue.Queue(maxsize=5)
    print 'queue initialized...'
    root = tk.Tk()
    print 'GUI initialized...'
