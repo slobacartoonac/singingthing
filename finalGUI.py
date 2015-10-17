@@ -170,6 +170,7 @@ if __name__ == '__main__':
    volumeSk.grid(column=0, row=9, sticky=('W', 'E'))
    tk.Button(frame2, text='CONFIGURE   ', command=lambda: settingsWindow.settingsWindow(), height=2, width=20).grid(row=10, column=0, sticky = N)
    image_label = tk.Label(frame)#, height=480, width=640)#.grid(row=0)
+   sound_label = tk.Label(frame)
    # label for the video frame
    image_label.pack(side=TOP)
    print 'GUI image label initialized...'
