@@ -30,6 +30,7 @@ def manualDetect(input, bgrnd, debug):
                         #It is useful in closing small holes inside the foreground objects, or small black points on the object.
                         gray=cv2.dilate(gray, None, 3)#ovo je dodato nije sigurno da je dobro
                         _, cnts, _ = cv2.findContours(gray.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+                        minv=(0,0)
                         for c in cnts:
                                 # if the contour is too small, ignore it
                                 if 1000<cv2.contourArea(c)<5000:#<5000:
@@ -39,11 +40,14 @@ def manualDetect(input, bgrnd, debug):
                                     # and update the text
                                     (x, y, w, h) = cv2.boundingRect(c)
                                     cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+                                    if y+h>minv[1]:
+                                        minv=(x + w/2, y + h)
                         #cv2.imshow('im', image)
                         if debug==1:
                                 cv2.imshow('Gray', gray)
                                 cv2.imshow('Mask',mask)
-                        return image
+                        return (image,minv)
                 except:
                         print 'Image grab failed'
+                        return ('',(0,0))
 

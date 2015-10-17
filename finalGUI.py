@@ -42,7 +42,8 @@ def getProcMet(var, input,ccam):
         #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
-                 return output
+                 play_move.motion(output[1],ccam)
+                 return output[0]
         elif v == 2:
                 output=haarcascades.haarcascades(input, 1, debug)
                 return output
@@ -156,7 +157,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = "fortest2.avi"
+   source = "fortest3.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()
