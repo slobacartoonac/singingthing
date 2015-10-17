@@ -39,7 +39,7 @@ def debugMode():
 
 def getProcMet(var, input,ccam):
         v = var.get()
-        print v
+        #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
                  return output
@@ -48,9 +48,11 @@ def getProcMet(var, input,ccam):
                 return output
         elif v == 3:
                 output=bgSubtraction.bgSubtraction(input, (), debug)
-                print "bilopre"
+                #print "bilopre"
                 play_move.motion(output[1],ccam)
-                print "bilosta"
+                #print "bilosta"
+                #if(output[1]==(0,0)):
+                #        print "ne sviraj majke ti ga"
                 return output[0]
         else:
                 output=hogDetect.hogDetect(input, (), ())
@@ -86,7 +88,7 @@ def update_image(image_label, queue, var,ccam):
            #frame = None
            framein = queue.get(False)
            frame = getProcMet(var,framein,ccam)
-           print 'frame', frame.shape
+           #print 'frame', frame.shape
            im = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
            a = Image.fromarray(im)
            b = ImageTk.PhotoImage(image=a)

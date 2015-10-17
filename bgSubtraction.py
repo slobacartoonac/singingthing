@@ -16,7 +16,7 @@ import ttk
 fgbg = cv2.createBackgroundSubtractorMOG2(10, 50, 0)
 
 def bgSubtraction(input, v, debug):
-        minv=(0,0)
+        
         try:
                 fgmask = fgbg.apply(input)
                 #image = cv2.GaussianBlur(fgmask,(5,5),3)
@@ -24,7 +24,7 @@ def bgSubtraction(input, v, debug):
                 image=cv2.erode(image, None, 10)
                 _, cnts, _ = cv2.findContours(image.copy(), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)#cv2.RETR_EXTERNAL
                 max_area = 200
-                
+                minv=(0,0)
                 for c in cnts:
                 # if the contour is too small, ignore it
                         if 1000<cv2.contourArea(c)<5000:                                 
@@ -43,4 +43,4 @@ def bgSubtraction(input, v, debug):
                 
         except:
                 print 'Image grab failed.'
-                return ('',minv)
+                return ('',(0,0))
