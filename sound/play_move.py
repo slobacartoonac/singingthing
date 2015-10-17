@@ -29,6 +29,7 @@ def updateSound(dist,difference):
         playing=threading.Thread(target=start_sin, args = (que,))
         playing.start()
     f= dist/difference
+    if(f<20): f=0
     #print "set F: "+str(f)
     que.put(f)
     return f
