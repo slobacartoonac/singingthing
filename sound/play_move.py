@@ -29,8 +29,10 @@ def updateSound(dist,difference):
         playing=threading.Thread(target=start_sin, args = (que,))
         playing.start()
     f= dist/difference
-    print "set F: "+str(f)
+    if(f<20): f=0
+    #print "set F: "+str(f)
     que.put(f)
+    return f
 def updateMotion(inn):
         #print "updateMotion"
         #print inn,' ',inn[2]!=-1
@@ -42,7 +44,7 @@ def updateMotion(inn):
             middle=True
         while len(buf)>3:
             buf.pop(0)
-        if(len(buf)<3):
+        if(len(buf)<2):
             return
         s1=[sum(x) for x in zip(*buf)]
         time=float(s1[2]/len(buf))
@@ -60,7 +62,7 @@ def updateMotion(inn):
         dist=distance(s1,s2)
         #print "d"
        # print "distance/time: ",dist, time
-        updateSound(dist,time/7.0)
+        return updateSound(dist,time)
     
 def motionE(event):
     x, y = event.x, event.y
@@ -94,7 +96,7 @@ def motion(event,cam):
         #print "posle"
         nx=cam.get_cord_pixel(ny,x)
         #print('{}, {}'.format(int(nx), int(ny)))
-        updateMotion((nx,ny,diffrence))
+        return updateMotion((nx,ny,diffrence))
 def end():
     que.put(-1)
     quein.put((-1,))

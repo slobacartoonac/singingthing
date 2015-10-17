@@ -42,7 +42,7 @@ def start_sin(q):
         for x in xrange(CHUNK):
             diference=(y-yp)/CHUNK/4
             yp+=diference
-            dividor=1.0/BITRATE*(yp)*math.pi
+            dividor=2.0/BITRATE*(yp)*math.pi
             pos+=dividor;
             data = data+chr(int(math.sin(pos)*soundlevel+128))
         #print diference
