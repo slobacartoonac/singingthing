@@ -11,9 +11,18 @@ from PIL import Image, ImageTk
 import time
 import Tkinter as tk
 import ttk
+import singleton
 
 
+settingsCon = singleton.settings()
 fgbg = cv2.createBackgroundSubtractorMOG2(10, 50, 0)
+"""
+Parameters
+history	Length of the history.
+varThreshold	Threshold on the squared Mahalanobis distance between the pixel and the model to decide whether a pixel is well described by the background model.
+                This parameter does not affect the background update.
+detectShadows	If true, the algorithm will detect shadows and mark them. It decreases the speed a bit, so if you do not need this feature, set the parameter to false.
+"""
 
 def bgSubtraction(input, v, debug):
         
@@ -27,7 +36,7 @@ def bgSubtraction(input, v, debug):
                 minv=(0,0)
                 for c in cnts:
                 # if the contour is too small, ignore it
-                        if 1000<cv2.contourArea(c)<5000:                                 
+                        if settingsCon['minArea'].get()<cv2.contourArea(c)<settingsCon['maxArea'].get():                                 
                                 # compute the bounding box for the contour, draw it on the frame,
                                 # and update the text
                                 

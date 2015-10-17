@@ -18,6 +18,7 @@ import manualDetect
 sys.path.append("sound")
 import play_move
 import projection
+import singleton
 
 
 global tmpImg
@@ -27,7 +28,11 @@ background = None
 global debug
 debug = 0
 
-                
+
+def onScale():
+
+        
+        print 'scroll'
                 
     
 def debugMode():
@@ -39,10 +44,12 @@ def debugMode():
 
 def getProcMet(var, input,ccam):
         v = var.get()
+        settingsCon = singleton.settings()
         #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
-                 play_move.motion(output[1],ccam)
+                 #play_move.motion(output[1],ccam)
+                 settingsCon['freq'].set(play_move.motion(output[1],ccam))
                  return output[0]
         elif v == 2:
                 output=haarcascades.haarcascades(input, 1, debug)
@@ -112,7 +119,9 @@ def update_image(image_label, queue, var,ccam):
            b = ImageTk.PhotoImage(image=a)
            image_label.configure(image=b)
            image_label._image_cache = b  # avoid garbage collection
+           settingsCon = singleton.settings()
            root.update()
+           
 
         except:
                 x=1
@@ -157,7 +166,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = "fortest3.avi"
+   source = 0#"ljudi.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()
@@ -171,44 +180,73 @@ if __name__ == '__main__':
    print 'queue initialized...'
    root = tk.Tk()
    print 'GUI initialized...'
-   var1=IntVar()
+   var1 = IntVar()
    var1.set('3')
-   freq = StringVar()
-   freq.set('0000')
-   volume = IntVar()
-   volume.set('0')
-   frame= Frame(root, height=500, width=900)
+
+   mute = IntVar()
+
+   settingsCon = singleton.settings()
+   settingsCon['minArea'] = IntVar()
+   settingsCon['maxArea'] = IntVar()
+   settingsCon['bgHistory'] = IntVar()
+   settingsCon['bgTresh'] = IntVar()
+   settingsCon['freq'] = IntVar()
+   settingsCon['minArea'].set('1000')
+   settingsCon['maxArea'].set('5000')
+   settingsCon['bgHistory'].set('10')
+   settingsCon['bgTresh'].set('50')
+   
+   print settingsCon['minArea']
+   print settingsCon['maxArea']
+   print settingsCon['bgHistory']
+   print settingsCon['bgTresh']
+   
+   frame= Frame(root, height=500, width=1200)
    frame.grid(row=0, column=0)
-   frame2= Frame(root, height=500, width=400)
+   frame2= Frame(root, height=500, width=500)
    frame2.grid(row=0, column=1)
    # Controll buttons
    tk.Button(frame2, text='CAPTURE', command=lambda: captureBg(queue), height=5, width=20).grid(row=0, column=0)
    tk.Button(frame2, text='DEBUG  ', command=lambda: debugMode(), height=5, width=20).grid(row=1, column=0, sticky = N)
    tk.Button(frame2, text='QUIT   ', command=lambda: quit_(root,p), height=5, width=20).grid(row=3, column=0, sticky = N)
    # Mode buttons
-   Radiobutton(frame2, text="Mode 1", variable=var1, value=1, indicatoron = 0,width = 14,padx = 20,).grid(row=4)#, sticky=W)  
-   Radiobutton(frame2, text="Mode 2", variable=var1, value=2, indicatoron = 0,width = 14,padx = 20,).grid(row=5)#, sticky=W)
-   Radiobutton(frame2, text="Mode 3", variable=var1, value=3, indicatoron = 0,width = 14,padx = 20,).grid(row=6)#, sticky=W)
-   Radiobutton(frame2, text="Mode 4", variable=var1, value=4, indicatoron = 0,width = 14,padx = 20,).grid(row=7)#, sticky=W)
-   # Volume 
-   tk.Label(frame2, text="Volume").grid(column=0, row=8)
-   volumeSk = ttk.LabeledScale(frame2, from_=0, to=100,variable=volume)
-   volumeSk.grid(column=0, row=9, sticky=('W', 'E'))
+   Radiobutton(frame2, text="Mode 1", variable=var1, value=1, indicatoron = 0,width = 14,padx = 20,).grid(row=4, column=0,sticky=('W', 'E'))#, sticky=W)  
+   Radiobutton(frame2, text="Mode 2", variable=var1, value=2, indicatoron = 0,width = 14,padx = 20,).grid(row=5, column=0,sticky=('W', 'E'))#, sticky=W)
+   Radiobutton(frame2, text="Mode 3", variable=var1, value=3, indicatoron = 0,width = 14,padx = 20,).grid(row=6, column=0,sticky=('W', 'E'))#, sticky=W)
+   Radiobutton(frame2, text="Mode 4", variable=var1, value=4, indicatoron = 0,width = 14,padx = 20,).grid(row=7, column=0,sticky=('W', 'E'))#, sticky=W)
+   # Volume
+   tk.Checkbutton(frame2, text="Mute", variable=mute,indicatoron = 0).grid(column=0, row=8, sticky=('W', 'E'))
+   #tk.Label(frame2, text="Volume").grid(column=0, row=8)
+   #volumeSk = ttk.LabeledScale(frame2, from_=0, to=100,variable=volume)
+   #volumeSk.grid(column=0, row=9, sticky=('W', 'E'))
    # Configure menu
    tk.Button(frame2, text='CONFIGURE   ', command=lambda: settingsWindow.settingsWindow(), height=2, width=20).grid(row=10, column=0, sticky = N)
   # label for the video frame
    image_label = tk.Label(frame)#, height=480, width=640)#.grid(row=0)
    image_label.pack(side=TOP)
    # Sound freq indicator
-   sound_label = tk.Label(frame2, textvariable = freq)
+   sound_label = tk.Label(frame2, textvariable = settingsCon['freq'])
    sound_label.grid(column = 0, row =11)
+   # OpenCV parameter settings
+   tk.Label(frame2, text="Min Area").grid(column=1, row=0)
+   tk.Label(frame2, text="Max Area").grid(column=2, row=0)
+   tk.Label(frame2, text="History").grid(column=3, row=0)
+   tk.Label(frame2, text="Threshold").grid(column=4, row=0)
+   minAreaSk = Scale(frame2, from_=3000, to=0,variable=settingsCon['minArea'])
+   minAreaSk.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
+   maxAreaSk = Scale(frame2, from_=7000, to=0,variable=settingsCon['maxArea'])
+   maxAreaSk.grid(column=2, row=1,rowspan =9, sticky=('S', 'N'))
+   history = Scale(frame2, from_=300, to=0,variable=settingsCon['bgHistory'])
+   history.grid(column=3, row=1,rowspan =9, sticky=('S', 'N'))
+   Threshold = Scale(frame2, from_=1000, to=0,variable=settingsCon['bgTresh'])
+   Threshold.grid(column=4, row=1,rowspan =9, sticky=('S', 'N'))
    print 'GUI image label initialized...'
    # Image capture thread
    p = threading.Thread(target=image_capture,args=(queue, runTk, source))
    p.start()
    print 'image capture process has started...'
    # quit button
-   quit_button = tk.Button(master=root, text='Quit',command=lambda: quit_(root,p))
+   #quit_button = tk.Button(master=root, text='Quit',command=lambda: quit_(root,p))
    #quit_button.pack()
    print 'quit button initialized...'
    # setup the update callback
