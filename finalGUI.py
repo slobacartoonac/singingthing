@@ -242,7 +242,7 @@ if __name__ == '__main__':
    image_label.pack(side=TOP)
    # Sound freq indicator
    sound_label = tk.Label(frame2, textvariable = settingsCon['freq'])
-   sound_label.grid(column = 0, row =11)
+   sound_label.grid(column=0, row=11)
    # OpenCV parameter settings
    n = ttk.Notebook(root)
    n.grid(column=2, row=0, sticky=('S', 'N'))
