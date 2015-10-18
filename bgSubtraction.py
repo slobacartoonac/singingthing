@@ -15,7 +15,7 @@ import singleton
 
 
 settingsCon = singleton.settings()
-fgbg = cv2.createBackgroundSubtractorMOG2(10, 50, 0)
+
 """
 Parameters
 history	Length of the history.
@@ -25,9 +25,15 @@ detectShadows	If true, the algorithm will detect shadows and mark them. It decre
 """
 
 def bgSubtraction(input, v, debug):
-        
+        if settingsCon['bgHistoryOld']!=settingsCon['bgHistory'].get() or settingsCon['bgTreshOld']!=settingsCon['bgTresh'].get():
+                h=int(settingsCon['bgHistory'].get())
+                t=int(settingsCon['bgTresh'].get())
+                print h," --- ",t
+                settingsCon['objBackS'] = cv2.createBackgroundSubtractorMOG2(h, t, 0)
+                settingsCon['bgHistoryOld']=settingsCon['bgHistory'].get()
+                settingsCon['bgTreshOld']=settingsCon['bgTresh'].get()
         try:
-                fgmask = fgbg.apply(input)
+                fgmask = settingsCon['objBackS'].apply(input)
                 #image = cv2.GaussianBlur(fgmask,(5,5),3)
                 image=cv2.dilate(fgmask, None, 10)
                 image=cv2.erode(image, None, 10)

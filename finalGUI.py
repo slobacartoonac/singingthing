@@ -50,7 +50,7 @@ def getProcMet(var, input,ccam):
                  output=manualDetect.manualDetect(input, background, debug)
                  fff=play_move.motion(output[1],ccam)
                  if(fff):
-                     settingsCon['freq'].set(fff)
+                     settingsCon['freq'].set(int(fff))
                  return output[0]
         elif v == 2:
                 output=haarcascades.haarcascades(input, 1, debug)
@@ -60,6 +60,7 @@ def getProcMet(var, input,ccam):
                 #print "bilopre"
                 fff=play_move.motion(output[1],ccam)
                 if fff:
+                        settingsCon['freq'].set(int(fff))
                         print "set F: "+ str(fff)
                 #print "bilosta"
                 #if(output[1]==(0,0)):
@@ -198,6 +199,8 @@ if __name__ == '__main__':
    settingsCon['maxArea'].set('5000')
    settingsCon['bgHistory'].set('10')
    settingsCon['bgTresh'].set('50')
+   settingsCon['bgHistoryOld']=-1
+   settingsCon['bgTreshOld']=-1
    
    print settingsCon['minArea']
    print settingsCon['maxArea']
