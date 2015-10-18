@@ -79,7 +79,7 @@ def motionE(event):
         nx=cam.get_cord_pixel(ny,x)
         #print('{}, {}'.format(int(nx), int(ny)))
         updateMotion((nx,ny,diffrence))
-def motion(event,cam):
+def motion(event,cam,settingsP):
     #print "usaoUmoution"
     x, y = event[0],event[1]
     global last,lastp

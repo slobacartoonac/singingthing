@@ -45,30 +45,37 @@ def debugMode():
 def getProcMet(var, input,ccam):
         v = var.get()
         settingsCon = singleton.settings()
+        settPlay=(settingsCon['minSpeed'].get(),settingsCon['maxSpeed'].get(),
+                  settingsCon['minFreq'].get(),settingsCon['maxFreq'].get())
         #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
-                 fff=play_move.motion(output[1],ccam)
+                 fff=play_move.motion(output[1],ccam,settPlay)
                  if(fff):
                      settingsCon['freq'].set(int(fff))
                  return output[0]
         elif v == 2:
                 output=haarcascades.haarcascades(input, 1, debug)
-                return output
+                fff=play_move.motion(output[1],ccam,settPlay)
+                if fff:
+                        settingsCon['freq'].set(int(fff))
+                return output[0]
         elif v == 3:
                 output=bgSubtraction.bgSubtraction(input, (), debug)
                 #print "bilopre"
-                fff=play_move.motion(output[1],ccam)
+                fff=play_move.motion(output[1],ccam,settPlay)
                 if fff:
                         settingsCon['freq'].set(int(fff))
-                        print "set F: "+ str(fff)
                 #print "bilosta"
                 #if(output[1]==(0,0)):
                 #        print "ne sviraj majke ti ga"
                 return output[0]
         else:
                 output=hogDetect.hogDetect(input, (), ())
-                return output
+                fff=play_move.motion(output[1],ccam,settPlay)
+                if fff:
+                        settingsCon['freq'].set(int(fff))
+                return output[0]
 
 
 def captureBg(queue):#Snima pozadinsku sliku za manualDetect
@@ -170,7 +177,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = 0#"ljudi.avi"
+   source = "fortest3.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()

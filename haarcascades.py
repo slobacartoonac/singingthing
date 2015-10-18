@@ -24,7 +24,7 @@ def haarcascades(input, v, debug):
     print 'classifier'
     try:
         # Read the image
-       
+        minv=(0,0)
         #image = cv2.imread(imagePath)
         gray = cv2.cvtColor(input, cv2.COLOR_BGR2GRAY)
 
@@ -49,11 +49,15 @@ def haarcascades(input, v, debug):
         for (x, y, w, h) in detects:
             cv2.rectangle(input, (x, y), (x+w, y+h), (0, 255, 0), 2)
             cv2.circle(input,(x + w/2, y + h/2),10,(0, 0, 255),-1)
+            if y+h>minv[1]:
+                    minv=(x + w/2, y + h)
         print 'rect drawn'
         #cv2.imshow("Faces found", image)
        
         if debug==1:
                 cv2.imshow('Gray', gray)
-        return input
+        return (input,minv)
     except:
-            print 'Image grab failed.'
+        print 'Image grab failed.'
+        return ('',(0,0))
+            
