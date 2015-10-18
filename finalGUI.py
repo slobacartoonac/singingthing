@@ -46,7 +46,8 @@ def getProcMet(var, input,ccam):
         v = var.get()
         settingsCon = singleton.settings()
         settPlay=(settingsCon['minSpeed'].get(),settingsCon['maxSpeed'].get(),
-                  settingsCon['minFreq'].get(),settingsCon['maxFreq'].get())
+                  settingsCon['minFreq'].get(),settingsCon['maxFreq'].get(),
+                  settingsCon['audioRate'].get(),settingsCon['positionBuff'].get())
         #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
@@ -181,7 +182,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = 0#"fortest3.avi"
+   source = "fortest3.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()

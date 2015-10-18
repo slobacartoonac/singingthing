@@ -22,18 +22,24 @@ def distance(a,b):
     return math.sqrt((a[0]-b[0])*(a[0]-b[0])+(a[1]-b[1])*(a[1]-b[1]))
 
 
-def updateSound(dist,difference):
+def updateSound(dist,difference,settingsP):
     global playing
     if not playing:
         print "created thread"
         playing=threading.Thread(target=start_sin, args = (que,))
         playing.start()
-    f= dist/difference
+    f=0;
+    speed= dist/difference/100
+    if(speed>settingsP[0]):
+        f=settingsP[2]
+        f+=(settingsP[3]-settingsP[2])/(settingsP[1]-settingsP[0])*(speed-settingsP[0])
+    print "speed: ",speed,"->f: ",f
     if(f<20): f=0
+    #if(f>settingsP[3]): f=settingsP[3]
     #print "set F: "+str(f)
     que.put(f)
     return f
-def updateMotion(inn):
+def updateMotion(inn,settingsP):
         #print "updateMotion"
         #print inn,' ',inn[2]!=-1
         middle=False
@@ -42,7 +48,7 @@ def updateMotion(inn):
             buf.append(inn)
         else:
             middle=True
-        while len(buf)>3:
+        while len(buf)>settingsP[5]:
             buf.pop(0)
         if(len(buf)<2):
             return
@@ -62,7 +68,7 @@ def updateMotion(inn):
         dist=distance(s1,s2)
         #print "d"
        # print "distance/time: ",dist, time
-        return updateSound(dist,time)
+        return updateSound(dist,time,settingsP)
     
 def motionE(event):
     x, y = event.x, event.y
@@ -83,7 +89,7 @@ def motion(event,cam,settingsP):
     #print "usaoUmoution"
     x, y = event[0],event[1]
     global last,lastp
-    if(time.time()-last)>0.1:
+    if(time.time()-last)>(1.0/settingsP[4]):
         #print('{}, {}'.format(x, y))
         diffrence=time.time()-last
         last=time.time()
@@ -96,7 +102,7 @@ def motion(event,cam,settingsP):
         #print "posle"
         nx=cam.get_cord_pixel(ny,x)
         #print('{}, {}'.format(int(nx), int(ny)))
-        return updateMotion((nx,ny,diffrence))
+        return updateMotion((nx,ny,diffrence),settingsP)
 def end():
     que.put(-1)
     quein.put((-1,))
