@@ -222,6 +222,10 @@ if __name__ == '__main__':
    settingsCon['maxSpeed'].set('10')
    settingsCon['minFreq'].set('40')
    settingsCon['maxFreq'].set('500')
+   settingsCon['audioRate'] = IntVar()
+   settingsCon['positionBuff'] = IntVar()
+   settingsCon['audioRate'].set('10')
+   settingsCon['positionBuff'].set('5')
    
    print settingsCon['minArea']
    print settingsCon['maxArea']
@@ -259,8 +263,10 @@ if __name__ == '__main__':
    n.grid(column=2, row=0, sticky=('S', 'N'))
    f1 = ttk.Frame(n)   # first page, which would get widgets gridded into it
    f2 = ttk.Frame(n)   # second page
+   f3 = ttk.Frame(n)
    n.add(f1, text='Video')
-   n.add(f2, text='Audio')
+   n.add(f2, text='Speed/Freq')
+   n.add(f3, text='Audio')
    tk.Label(f1, text="Min Area").grid(column=0, row=0)
    tk.Label(f1, text="Max Area").grid(column=1, row=0)
    tk.Label(f1, text="History").grid(column=2, row=0)
@@ -277,6 +283,8 @@ if __name__ == '__main__':
    tk.Label(f2, text="Max speed").grid(column=1, row=0)
    tk.Label(f2, text="Min Freq").grid(column=2, row=0)
    tk.Label(f2, text="Max Freq").grid(column=3, row=0)
+   tk.Label(f3, text="Audio Rate").grid(column=0, row=0)
+   tk.Label(f3, text="Buffer").grid(column=1, row=0)
    minAreaSk = Scale(f2, from_=10, to=0,variable=settingsCon['minSpeed'],length=400)
    minAreaSk.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
    maxAreaSk = Scale(f2, from_=20, to=5,variable=settingsCon['maxSpeed'],length=400)
@@ -285,6 +293,11 @@ if __name__ == '__main__':
    history.grid(column=2, row=1,rowspan =9, sticky=('S', 'N'))
    Threshold = Scale(f2, from_=2000, to=40,variable=settingsCon['maxFreq'],length=400)
    Threshold.grid(column=3, row=1,rowspan =9, sticky=('S', 'N'))
+   audioRate = Scale(f3, from_=30, to=1,variable=settingsCon['audioRate'],length=400)
+   audioRate.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
+   positionBuff = Scale(f3, from_=10, to=3,variable=settingsCon['positionBuff'],length=400)
+   positionBuff.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
+
    print 'GUI image label initialized...'
    # Image capture thread
    p = threading.Thread(target=image_capture,args=(queue, runTk, source))
