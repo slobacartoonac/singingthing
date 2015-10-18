@@ -11,6 +11,9 @@ from PIL import Image, ImageTk
 import time
 import Tkinter as tk
 import ttk
+import singleton
+
+settingsCon = singleton.settings()
 
 def manualDetect(input, bgrnd, debug):
         if bgrnd == None:
@@ -33,7 +36,7 @@ def manualDetect(input, bgrnd, debug):
                         minv=(0,0)
                         for c in cnts:
                                 # if the contour is too small, ignore it
-                                if 1000<cv2.contourArea(c)<5000:#<5000:
+                                if settingsCon['minArea'].get()<cv2.contourArea(c)<settingsCon['maxArea'].get():#<5000:
                                     #continue
 
                                     # compute the bounding box for the contour, draw it on the frame,
