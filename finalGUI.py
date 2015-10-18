@@ -183,13 +183,15 @@ if __name__ == '__main__':
    queue = Queue.Queue(maxsize=5)
    print 'queue initialized...'
    root = tk.Tk()
+   root.title('SingThing')
    print 'GUI initialized...'
    var1 = IntVar()
    var1.set('3')
 
-   mute = IntVar()
+   
 
    settingsCon = singleton.settings()
+   settingsCon['mute'] = IntVar()
    settingsCon['minArea'] = IntVar()
    settingsCon['maxArea'] = IntVar()
    settingsCon['bgHistory'] = IntVar()
@@ -201,6 +203,14 @@ if __name__ == '__main__':
    settingsCon['bgTresh'].set('50')
    settingsCon['bgHistoryOld']=-1
    settingsCon['bgTreshOld']=-1
+   settingsCon['minSpeed'] = IntVar()
+   settingsCon['maxSpeed'] = IntVar()
+   settingsCon['minFreq'] = IntVar()
+   settingsCon['maxFreq'] = IntVar()
+   settingsCon['minSpeed'].set('1')
+   settingsCon['maxSpeed'].set('10')
+   settingsCon['minFreq'].set('40')
+   settingsCon['maxFreq'].set('500')
    
    print settingsCon['minArea']
    print settingsCon['maxArea']
@@ -221,7 +231,7 @@ if __name__ == '__main__':
    Radiobutton(frame2, text="Mode 3", variable=var1, value=3, indicatoron = 0,width = 14,padx = 20,).grid(row=6, column=0,sticky=('W', 'E'))#, sticky=W)
    Radiobutton(frame2, text="Mode 4", variable=var1, value=4, indicatoron = 0,width = 14,padx = 20,).grid(row=7, column=0,sticky=('W', 'E'))#, sticky=W)
    # Volume
-   tk.Checkbutton(frame2, text="Mute", variable=mute,indicatoron = 0).grid(column=0, row=8, sticky=('W', 'E'))
+   tk.Checkbutton(frame2, text="Mute", variable=settingsCon['mute'],indicatoron = 0).grid(column=0, row=8, sticky=('W', 'E'))
    #tk.Label(frame2, text="Volume").grid(column=0, row=8)
    #volumeSk = ttk.LabeledScale(frame2, from_=0, to=100,variable=volume)
    #volumeSk.grid(column=0, row=9, sticky=('W', 'E'))
@@ -234,18 +244,36 @@ if __name__ == '__main__':
    sound_label = tk.Label(frame2, textvariable = settingsCon['freq'])
    sound_label.grid(column = 0, row =11)
    # OpenCV parameter settings
-   tk.Label(frame2, text="Min Area").grid(column=1, row=0)
-   tk.Label(frame2, text="Max Area").grid(column=2, row=0)
-   tk.Label(frame2, text="History").grid(column=3, row=0)
-   tk.Label(frame2, text="Threshold").grid(column=4, row=0)
-   minAreaSk = Scale(frame2, from_=3000, to=0,variable=settingsCon['minArea'])
-   minAreaSk.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
-   maxAreaSk = Scale(frame2, from_=7000, to=0,variable=settingsCon['maxArea'])
-   maxAreaSk.grid(column=2, row=1,rowspan =9, sticky=('S', 'N'))
-   history = Scale(frame2, from_=300, to=0,variable=settingsCon['bgHistory'])
-   history.grid(column=3, row=1,rowspan =9, sticky=('S', 'N'))
-   Threshold = Scale(frame2, from_=1000, to=0,variable=settingsCon['bgTresh'])
-   Threshold.grid(column=4, row=1,rowspan =9, sticky=('S', 'N'))
+   n = ttk.Notebook(root)
+   n.grid(column=2, row=0, sticky=('S', 'N'))
+   f1 = ttk.Frame(n)   # first page, which would get widgets gridded into it
+   f2 = ttk.Frame(n)   # second page
+   n.add(f1, text='Video')
+   n.add(f2, text='Audio')
+   tk.Label(f1, text="Min Area").grid(column=0, row=0)
+   tk.Label(f1, text="Max Area").grid(column=1, row=0)
+   tk.Label(f1, text="History").grid(column=2, row=0)
+   tk.Label(f1, text="Threshold").grid(column=3, row=0)
+   minAreaSk = Scale(f1, from_=3000, to=0,variable=settingsCon['minArea'],length=390)
+   minAreaSk.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
+   maxAreaSk = Scale(f1, from_=7000, to=0,variable=settingsCon['maxArea'])
+   maxAreaSk.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
+   history = Scale(f1, from_=300, to=0,variable=settingsCon['bgHistory'])
+   history.grid(column=2, row=1,rowspan =9, sticky=('S', 'N'))
+   Threshold = Scale(f1, from_=1000, to=0,variable=settingsCon['bgTresh'])
+   Threshold.grid(column=3, row=1,rowspan =9, sticky=('S', 'N'))
+   tk.Label(f2, text="Min Speed").grid(column=0, row=0)
+   tk.Label(f2, text="Max speed").grid(column=1, row=0)
+   tk.Label(f2, text="Min Freq").grid(column=2, row=0)
+   tk.Label(f2, text="Max Freq").grid(column=3, row=0)
+   minAreaSk = Scale(f2, from_=10, to=0,variable=settingsCon['minSpeed'],length=400)
+   minAreaSk.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
+   maxAreaSk = Scale(f2, from_=20, to=5,variable=settingsCon['maxSpeed'])
+   maxAreaSk.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
+   history = Scale(f2, from_=2000, to=40,variable=settingsCon['minFreq'])
+   history.grid(column=2, row=1,rowspan =9, sticky=('S', 'N'))
+   Threshold = Scale(f2, from_=2000, to=40,variable=settingsCon['maxFreq'])
+   Threshold.grid(column=3, row=1,rowspan =9, sticky=('S', 'N'))
    print 'GUI image label initialized...'
    # Image capture thread
    p = threading.Thread(target=image_capture,args=(queue, runTk, source))
