@@ -55,12 +55,6 @@ def getProcMet(var, input,ccam):
                      settingsCon['freq'].set(int(fff))
                  return output[0]
         elif v == 2:
-                output=haarcascades.haarcascades(input, 1, debug)
-                fff=play_move.motion(output[1],ccam,settPlay)
-                if fff:
-                        settingsCon['freq'].set(int(fff))
-                return output[0]
-        elif v == 3:
                 output=bgSubtraction.bgSubtraction(input, (), debug)
                 #print "bilopre"
                 fff=play_move.motion(output[1],ccam,settPlay)
@@ -70,6 +64,16 @@ def getProcMet(var, input,ccam):
                 #if(output[1]==(0,0)):
                 #        print "ne sviraj majke ti ga"
                 return output[0]
+
+                
+                
+        elif v == 3:
+                output=haarcascades.haarcascades(input, 1, debug)
+                fff=play_move.motion(output[1],ccam,settPlay)
+                if fff:
+                        settingsCon['freq'].set(int(fff))
+                return output[0]
+                
         else:
                 output=hogDetect.hogDetect(input, (), ())
                 fff=play_move.motion(output[1],ccam,settPlay)
@@ -193,7 +197,7 @@ if __name__ == '__main__':
    root.title('SingThing')
    print 'GUI initialized...'
    var1 = IntVar()
-   var1.set('3')
+   var1.set('2')
 
    
 
