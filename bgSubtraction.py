@@ -58,4 +58,4 @@ def bgSubtraction(input, v, debug):
                 
         except:
                 print 'Image grab failed.'
-                return ('',(0,0))
+                return (input,(0,0))

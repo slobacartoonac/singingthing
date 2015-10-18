@@ -45,21 +45,21 @@ def debugMode():
 def getProcMet(var, input,ccam):
         v = var.get()
         settingsCon = singleton.settings()
-        settPlay=(settingsCon['minSpeed'].get(),settingsCon['maxSpeed'].get(),
-                  settingsCon['minFreq'].get(),settingsCon['maxFreq'].get(),
-                  settingsCon['audioRate'].get(),settingsCon['positionBuff'].get())
+        settPlay=(float(settingsCon['minSpeed'].get()),float(settingsCon['maxSpeed'].get()),
+                  float(settingsCon['minFreq'].get()),float(settingsCon['maxFreq'].get()),
+                  float(settingsCon['audioRate'].get()),float(settingsCon['positionBuff'].get()))
         #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
                  fff=play_move.motion(output[1],ccam,settPlay)
-                 if(fff):
+                 if fff!=None:
                      settingsCon['freq'].set(int(fff))
                  return output[0]
         elif v == 2:
                 output=bgSubtraction.bgSubtraction(input, (), debug)
                 #print "bilopre"
                 fff=play_move.motion(output[1],ccam,settPlay)
-                if fff:
+                if fff!=None:
                         settingsCon['freq'].set(int(fff))
                 #print "bilosta"
                 #if(output[1]==(0,0)):
@@ -71,14 +71,14 @@ def getProcMet(var, input,ccam):
         elif v == 3:
                 output=haarcascades.haarcascades(input, 1, debug)
                 fff=play_move.motion(output[1],ccam,settPlay)
-                if fff:
+                if fff!=None:
                         settingsCon['freq'].set(int(fff))
                 return output[0]
                 
         else:
                 output=hogDetect.hogDetect(input, (), ())
                 fff=play_move.motion(output[1],ccam,settPlay)
-                if fff:
+                if fff!=None:
                         settingsCon['freq'].set(int(fff))
                 return output[0]
 
@@ -182,7 +182,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = "fortest3.avi"
+   source = 0#"fortest3.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()

@@ -33,9 +33,9 @@ def updateSound(dist,difference,settingsP):
     if(speed>settingsP[0]):
         f=settingsP[2]
         f+=(settingsP[3]-settingsP[2])/(settingsP[1]-settingsP[0])*(speed-settingsP[0])
-    print "speed: ",speed,"->f: ",f
+    #print "speed: ",speed,"->f: ",f
     if(f<20): f=0
-    #if(f>settingsP[3]): f=settingsP[3]
+    if(f>settingsP[3]): f=settingsP[3]
     #print "set F: "+str(f)
     que.put(f)
     return f
@@ -95,7 +95,7 @@ def motion(event,cam,settingsP):
         last=time.time()
         if event==(0,0):
             #print "nista nista nista"
-            updateMotion((0,0,-1))
+            updateMotion((0,0,-1),settingsP)
             return
         #print "pre"
         ny=cam.get_distance_pixel(cam.res_y-y)
