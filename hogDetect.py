@@ -30,6 +30,7 @@ def draw_detections(img, rects, thickness = 1):
         cv2.circle(img,(x + w/2, y + h/2),10,(0, 0, 255),-1)
         if y+h>minv[1]:
                minv=(x + w/2, y + h)
+    return minv
 
 def hogDetect(input, v, debug):
         

@@ -177,7 +177,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = "fortest3.avi"
+   source = 0#"fortest3.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()
