@@ -43,7 +43,7 @@ def manualDetect(input, bgrnd, debug):
                                     # and update the text
                                     (x, y, w, h) = cv2.boundingRect(c)
                                     cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
-                                    cv2.circle(image,(x + w/2, y + h/2),10,(0, 0, 255),-1)
+                                    cv2.circle(image,(x + w/2, y + h/2),2,(0, 0, 255),-1)
                                     if y+h>minv[1]:
                                         minv=(x + w/2, y + h)
                         #cv2.imshow('im', image)

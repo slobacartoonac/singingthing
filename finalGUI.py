@@ -150,6 +150,8 @@ def update_all(root, image_label, queue, var,ccam):
 #multiprocessing image processing functions-------------------------------------
 def image_capture(queue, run, source):
         vidFile = cv2.VideoCapture(source)
+        vidFile.set(3, 640)     #horizontal pixels
+        vidFile.set(4,480)		#vertical pixels
         while vidFile.isOpened():
                 if runTk == 0:
                         print "\nrunTk kill this thread\n"
@@ -172,6 +174,8 @@ def image_capture(queue, run, source):
 
 def getVideoSize(source):
         vidFile = cv2.VideoCapture(source)
+        vidFile.set(3, 640)     #horizontal pixels
+        vidFile.set(4, 480)		#vertical pixels
         for x in range(0,5):
                 try:
                         flag, frame=vidFile.read()
@@ -182,7 +186,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source = 0#"fortest3.avi"
+   source =  "ljudi.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()

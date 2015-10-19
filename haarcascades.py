@@ -48,7 +48,7 @@ def haarcascades(input, v, debug):
         # Draw a rectangle around the faces
         for (x, y, w, h) in detects:
             cv2.rectangle(input, (x, y), (x+w, y+h), (0, 255, 0), 2)
-            cv2.circle(input,(x + w/2, y + h/2),10,(0, 0, 255),-1)
+            cv2.circle(input,(x + w/2, y + h/2),2,(0, 0, 255),-1)
             if y+h>minv[1]:
                     minv=(x + w/2, y + h)
         print 'rect drawn'

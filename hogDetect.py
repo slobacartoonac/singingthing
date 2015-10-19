@@ -27,7 +27,7 @@ def draw_detections(img, rects, thickness = 1):
         # so we slightly shrink the rectangles to get a nicer output.
         pad_w, pad_h = int(0.15*w), int(0.05*h)
         cv2.rectangle(img, (x+pad_w, y+pad_h), (x+w-pad_w, y+h-pad_h), (0, 255, 0), thickness)
-        cv2.circle(img,(x + w/2, y + h/2),10,(0, 0, 255),-1)
+        cv2.circle(img,(x + w/2, y + h/2),2,(0, 0, 255),-1)
         if y+h>minv[1]:
                minv=(x + w/2, y + h)
     return minv
