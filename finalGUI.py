@@ -117,6 +117,13 @@ def camProperties():
                 print sys.exc_info()[0]
                 return (3.14/4, 3.14/5, 10, 10)
 
+def banner(text):
+        settingsCon = singleton.settings()
+        text = text[1:] + text [0]
+        settingsCon['banner'].set(text)
+        
+        
+
 
 
 
@@ -136,6 +143,11 @@ def update_image(image_label, queue, var,ccam):
            image_label.configure(image=b)
            image_label._image_cache = b  # avoid garbage collection
            settingsCon = singleton.settings()
+           tTime =time.time()
+           if tTime>settingsCon['oldTime'] + 0.2:
+                   banner(settingsCon['banner'].get())
+                   settingsCon['oldTime']=tTime            
+           
            root.update()
            
 
@@ -193,7 +205,8 @@ if __name__ == '__main__':
    ccam=projection.cammera(w,h,camSet[0],camSet[1])
    ccam.set_position(camSet[2], camSet[3])
    print h
-   print w
+   print w 
+   videoSize = 'Video size: %d x %d'%(w,h)
    global runTk
    runTk = 1
    queue = Queue.Queue(maxsize=5)
@@ -207,6 +220,9 @@ if __name__ == '__main__':
    
 
    settingsCon = singleton.settings()
+   settingsCon['banner'] = StringVar()
+   settingsCon['banner'].set('   Program created by Slobodan: slobacartoonac@hotmail.com and Marko: markoni985@hotmail.com')
+   
    settingsCon['mute'] = IntVar()
    settingsCon['minArea'] = IntVar()
    settingsCon['maxArea'] = IntVar()
@@ -236,7 +252,8 @@ if __name__ == '__main__':
    print settingsCon['maxArea']
    print settingsCon['bgHistory']
    print settingsCon['bgTresh']
-   
+
+   settingsCon['oldTime']=time.time()
    frame= Frame(root, height=500, width=1200)
    frame.grid(row=0, column=0)
    frame2= Frame(root, height=500, width=500)
@@ -259,7 +276,10 @@ if __name__ == '__main__':
    tk.Button(frame2, text='CONFIGURE   ', command=lambda: settingsWindow.settingsWindow(), height=2, width=20).grid(row=10, column=0, sticky = N)
   # label for the video frame
    image_label = tk.Label(frame)#, height=480, width=640)#.grid(row=0)
-   image_label.pack(side=TOP)
+   image_label.grid(column=0, row=0, sticky = ('W', 'N'))
+   #Video Size Label
+   size_label = tk.Label(frame, text = videoSize)
+   size_label.grid(column= 0, row=1,sticky = W)
    # Sound freq indicator
    sound_label = tk.Label(frame2, textvariable = settingsCon['freq'])
    sound_label.grid(column=0, row=11)
@@ -302,6 +322,8 @@ if __name__ == '__main__':
    audioRate.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
    positionBuff = Scale(f3, from_=10, to=3,variable=settingsCon['positionBuff'],length=400)
    positionBuff.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
+   creators = tk.Label(root, textvariable=settingsCon['banner'], width= 30)
+   creators.grid(column = 2, row=1 , sticky=E)
 
    print 'GUI image label initialized...'
    # Image capture thread
