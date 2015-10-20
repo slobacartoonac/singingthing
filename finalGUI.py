@@ -43,7 +43,7 @@ def debugMode():
         if debug==0:
                 cv2.destroyAllWindows()
 
-def getProcMet(var, input,ccam):
+def getProcMet(var, input):
         v = var.get()
         settingsCon = singleton.settings()
         settPlay=(float(settingsCon['minSpeed'].get()),float(settingsCon['maxSpeed'].get()),
@@ -52,7 +52,7 @@ def getProcMet(var, input,ccam):
         #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
-                 fff=play_move.motion(output[1],ccam,settPlay)
+                 fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
                  if fff!=None:
                      settingsCon['freq'].set(int(fff))
                  return output[0]
@@ -60,7 +60,7 @@ def getProcMet(var, input,ccam):
                 output=bgSubtraction.bgSubtraction(input, (), debug)
                 #print "bilopre"
                 #print "calling ", output[1]
-                fff=play_move.motion(output[1],ccam,settPlay)
+                fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
                 #print fff
                 if fff!=None:
                         #print "NO"
@@ -75,14 +75,14 @@ def getProcMet(var, input,ccam):
                 
         elif v == 3:
                 output=haarcascades.haarcascades(input, 1, debug)
-                fff=play_move.motion(output[1],ccam,settPlay)
+                fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
                 if fff!=None:
                         settingsCon['freq'].set(int(fff))
                 return output[0]
                 
         else:
                 output=hogDetect.hogDetect(input, (), ())
-                fff=play_move.motion(output[1],ccam,settPlay)
+                fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
                 if fff!=None:
                         settingsCon['freq'].set(int(fff))
                 return output[0]
@@ -137,12 +137,12 @@ def banner(text):
 #tkinter GUI functions----------------------------------------------------------
 
 
-def update_image(image_label, queue, var,ccam):
+def update_image(image_label, queue, var):
         
         try:
            #frame = None
            framein = queue.get(False)
-           frame = getProcMet(var,framein,ccam)
+           frame = getProcMet(var,framein)
            #print 'frame', frame.shape
            im = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
            a = Image.fromarray(im)
@@ -150,6 +150,7 @@ def update_image(image_label, queue, var,ccam):
            image_label.configure(image=b)
            image_label._image_cache = b  # avoid garbage collection
            settingsCon = singleton.settings()
+           #Scrollso text in the bootom right corner
            tTime =time.time()
            if tTime>settingsCon['oldTime'] + 0.2:
                    banner(settingsCon['banner'].get())
@@ -162,9 +163,9 @@ def update_image(image_label, queue, var,ccam):
                 x=1
                 #print 'Update failed'
 
-def update_all(root, image_label, queue, var,ccam):
-   update_image(image_label, queue, var,ccam)
-   root.after(0, func=lambda: update_all(root, image_label, queue, var,ccam))
+def update_all(root, image_label, queue, var):
+   update_image(image_label, queue, var)
+   root.after(0, func=lambda: update_all(root, image_label, queue, var))
 
 #multiprocessing image processing functions-------------------------------------
 def image_capture(queue, run, source):
@@ -205,15 +206,20 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source =  "fortest3.avi"
+
+   settingsCon = singleton.settings()
    
+   source =  "fortest3.avi"
+
    h, w = getVideoSize(source)
    camSet=camProperties()
-   ccam=projection.cammera(w,h,camSet[0],camSet[1])
-   ccam.set_position(camSet[2], camSet[3])
+   settingsCon['ccam']=projection.cammera(w,h,camSet[0],camSet[1])
+   settingsCon['ccam'].set_position(camSet[2], camSet[3])
    print h
    print w 
-   videoSize = 'Video size: %d x %d'%(w,h)
+   videoSize = 'Video size: %d x %d'%(w,h) 
+   
+   
    global runTk
    runTk = 1
    queue = Queue.Queue(maxsize=5)
@@ -226,7 +232,7 @@ if __name__ == '__main__':
 
    
 
-   settingsCon = singleton.settings()
+
    settingsCon['banner'] = StringVar()
    settingsCon['banner'].set('   Program created by Slobodan: slobacartoonac@hotmail.com and Marko: markoni985@hotmail.com')
    
@@ -342,7 +348,7 @@ if __name__ == '__main__':
    #quit_button.pack()
    print 'quit button initialized...'
    # setup the update callback
-   update_all(root, image_label, queue, var1,ccam)
+   update_all(root, image_label, queue, var1)
    print 'root.after was called...'
    root.mainloop()
    print 'mainloop exit'

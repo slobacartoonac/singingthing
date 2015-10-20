@@ -1,5 +1,11 @@
 import Tkinter as tk
 from Tkinter import *
+import math
+import singleton
+import math
+sys.path.append("sound")
+import projection
+
 
 frame=None
 
@@ -135,13 +141,27 @@ def close(target):
         
 
 def save():
+        settingsCon=singleton.settings()
         f = open("settings.txt", "w")
         f.write(e1.get()+'\n'+e2.get()+'\n'+e3.get()+'\n'+e4.get()+'\n')
+        
+        f.close()
+        x=float(e1.get())*math.pi/180
+        y=float(e2.get())*math.pi/180
+        hc=float(e3.get())
+        dc=float(e4.get())
+        settingsCon['ccam'].set_fov(x,y)
+        settingsCon['ccam'].set_position(hc, dc)
+        
+        print 'close'
         f.close()
 if '__main__'==__name__:
         root = tk.Tk()
-        
+        settingsCon=singleton.settings()
         settingsWindow()
+        camSet=(1,1,1,1)
+        settingsCon['ccam']=projection.cammera(200,200,camSet[0],camSet[1])
+        settingsCon['ccam'].set_position(camSet[2], camSet[3])
         root.mainloop()
         root.destroy()
         
