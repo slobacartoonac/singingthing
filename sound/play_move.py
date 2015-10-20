@@ -72,10 +72,10 @@ def updateMotion(inn,settingsP):
         dist=distance(s1,s2)
         res=updateSound(dist,time,settingsP)
         if middle:
-            print "utisavam"
+            #print "utisavam"
             buf.append((s2[0],s2[1],time*2));
-            print "utisao"
-            print "distance/time/f: ",dist, time,res
+            #print "utisao"
+            #print "distance/time/f: ",dist, time,res
         #print "d"
         
         

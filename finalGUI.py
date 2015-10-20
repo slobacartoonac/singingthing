@@ -28,7 +28,7 @@ global background
 background = None
 global debug
 debug = 0
-
+settingsCon = singleton.settings()
 
 def onScale():
 
@@ -172,13 +172,15 @@ def image_capture(queue, run, source):
         vidFile = cv2.VideoCapture(source)
         vidFile.set(3, 640)     #horizontal pixels
         vidFile.set(4,480)		#vertical pixels
+        flag, frame=vidFile.read()
         while vidFile.isOpened():
                 if runTk == 0:
                         print "\nrunTk kill this thread\n"
                         break
                 else:
                       try:
-                         flag, frame=vidFile.read()
+                         if settingsCon['newdata'].get():
+                                 flag, frame=vidFile.read()
                          
                          if flag==0:
                             print "\nflag kill this thread\n"
@@ -186,6 +188,8 @@ def image_capture(queue, run, source):
                  #cv2.imshow("Input file", frame)
                          queue.put(frame)
                          cv2.waitKey(20)
+                       
+                        
                       except:
                          continue
         print "Gotov je tred ovo nije problem"
@@ -260,6 +264,8 @@ if __name__ == '__main__':
    settingsCon['positionBuff'] = IntVar()
    settingsCon['audioRate'].set('10')
    settingsCon['positionBuff'].set('5')
+   settingsCon['newdata']=IntVar()
+   settingsCon['newdata'].set('0')
    
    print settingsCon['minArea']
    print settingsCon['maxArea']
@@ -282,11 +288,13 @@ if __name__ == '__main__':
    Radiobutton(frame2, text="Mode 4", variable=var1, value=4, indicatoron = 0,width = 14,padx = 20,).grid(row=7, column=0,sticky=('W', 'E'))#, sticky=W)
    # Volume
    tk.Checkbutton(frame2, text="Mute", variable=settingsCon['mute'],indicatoron = 0).grid(column=0, row=8, sticky=('W', 'E'))
+   tk.Checkbutton(frame2, text="Play", variable=settingsCon['newdata'],indicatoron = 0).grid(column=0, row=9, sticky=('W', 'E'))
    #tk.Label(frame2, text="Volume").grid(column=0, row=8)
    #volumeSk = ttk.LabeledScale(frame2, from_=0, to=100,variable=volume)
    #volumeSk.grid(column=0, row=9, sticky=('W', 'E'))
    # Configure menu
    tk.Button(frame2, text='CONFIGURE   ', command=lambda: settingsWindow.settingsWindow(), height=2, width=20).grid(row=10, column=0, sticky = N)
+   
   # label for the video frame
    image_label = tk.Label(frame)#, height=480, width=640)#.grid(row=0)
    image_label.grid(column=0, row=0, sticky = ('W', 'N'))
