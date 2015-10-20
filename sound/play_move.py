@@ -31,11 +31,11 @@ def updateSound(dist,difference,settingsP):
         playing=threading.Thread(target=start_sin, args = (que,))
         playing.start()
     f=0;
-    speed= dist/difference/100
+    speed= dist/difference/10
     if(speed>settingsP[0]):
         f=settingsP[2]
         f+=(settingsP[3]-settingsP[2])/(settingsP[1]-settingsP[0])*(speed-settingsP[0])
-    #print "speed: ",speed,"->f: ",f
+    print "speed: ",speed,"->f: ",f
     if(f<20): f=0
     if(f>settingsP[3]): f=settingsP[3]
     #print "set F: "+str(f)
@@ -111,7 +111,7 @@ def motion(event,cam,settingsP):
         ny=cam.get_distance_pixel(cam.res_y-y)
         #print "posle"
         nx=cam.get_cord_pixel(ny,x)
-        #print('{}, {}'.format(int(nx), int(ny)))
+        print('{}, {}'.format(int(nx), int(ny)))
         return updateMotion((nx,ny,diffrence),settingsP)
 def end():
     que.put(-1)
