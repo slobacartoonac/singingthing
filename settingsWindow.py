@@ -152,8 +152,9 @@ def save():
         dc=float(e4.get())
         settingsCon['ccam'].set_fov(x,y)
         settingsCon['ccam'].set_position(hc, dc)
+    
         
-        print 'close'
+        print 'close ', x, y, hc, dc
         f.close()
 if '__main__'==__name__:
         root = tk.Tk()
