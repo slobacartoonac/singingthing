@@ -23,6 +23,8 @@ def distance(a,b):
 
 
 def updateSound(dist,difference,settingsP):
+    
+        
     global playing
     if not playing:
         print "created thread"
@@ -37,7 +39,10 @@ def updateSound(dist,difference,settingsP):
     if(f<20): f=0
     if(f>settingsP[3]): f=settingsP[3]
     #print "set F: "+str(f)
-    que.put(f)
+    if settingsP[6]==1:
+        que.put(0)
+    else:
+        que.put(f)
     return f
 def updateMotion(inn,settingsP):
         #print "updateMotion"
@@ -51,7 +56,7 @@ def updateMotion(inn,settingsP):
         while len(buf)>settingsP[5]:
             buf.pop(0)
         if(len(buf)<2):
-            return
+            return 0
         s1=[sum(x) for x in zip(*buf)]
         time=float(s1[2]/len(buf))
         #print "averafe time: ",time
@@ -60,15 +65,21 @@ def updateMotion(inn,settingsP):
         #print "a"
         #print buf
         s2=((s1[0]-buf[0][0])/last,(s1[1]-buf[0][1])/last)
-        if middle:
-            buf.append((s2[0],s2[1],time*2));
+        
         #print "b"
         s1=((s1[1] - buf[last][0])/last ,(s1[1] - buf[last][1])/last)
         #print "c ", s1,s2
         dist=distance(s1,s2)
+        res=updateSound(dist,time,settingsP)
+        if middle:
+            print "utisavam"
+            buf.append((s2[0],s2[1],time*2));
+            print "utisao"
+            print "distance/time/f: ",dist, time,res
         #print "d"
-       # print "distance/time: ",dist, time
-        return updateSound(dist,time,settingsP)
+        
+        
+        return res
     
 def motionE(event):
     x, y = event.x, event.y
@@ -95,8 +106,7 @@ def motion(event,cam,settingsP):
         last=time.time()
         if event==(0,0):
             #print "nista nista nista"
-            updateMotion((0,0,-1),settingsP)
-            return
+            return updateMotion((0,0,-1),settingsP)
         #print "pre"
         ny=cam.get_distance_pixel(cam.res_y-y)
         #print "posle"
