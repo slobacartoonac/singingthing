@@ -47,7 +47,7 @@ def getProcMet(var, input,ccam):
         settingsCon = singleton.settings()
         settPlay=(float(settingsCon['minSpeed'].get()),float(settingsCon['maxSpeed'].get()),
                   float(settingsCon['minFreq'].get()),float(settingsCon['maxFreq'].get()),
-                  float(settingsCon['audioRate'].get()),float(settingsCon['positionBuff'].get()))
+                  float(settingsCon['audioRate'].get()),float(settingsCon['positionBuff'].get()),settingsCon['mute'].get())
         #print v
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
@@ -58,9 +58,13 @@ def getProcMet(var, input,ccam):
         elif v == 2:
                 output=bgSubtraction.bgSubtraction(input, (), debug)
                 #print "bilopre"
+                #print "calling ", output[1]
                 fff=play_move.motion(output[1],ccam,settPlay)
+                #print fff
                 if fff!=None:
+                        #print "NO"
                         settingsCon['freq'].set(int(fff))
+                #else :print "BUG"
                 #print "bilosta"
                 #if(output[1]==(0,0)):
                 #        print "ne sviraj majke ti ga"
@@ -198,7 +202,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source =  "ljudi.avi"
+   source =  "final.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()
