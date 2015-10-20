@@ -21,7 +21,7 @@ def manualDetect(input, bgrnd, debug):
                 
         else:
                 try:
-                        image = cv2.GaussianBlur(input,(5,5),3)#3
+                        image = input#cv2.GaussianBlur(input,(5,5),3)#3
                         maiorArea = 0
                         mask = cv2.absdiff(image,bgrnd)
                         gray = cv2.cvtColor(mask, cv2.COLOR_BGR2GRAY)

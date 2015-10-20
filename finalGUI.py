@@ -212,7 +212,7 @@ if __name__ == '__main__':
 
    settingsCon = singleton.settings()
    
-   source =  "final2.avi"
+   source =  "fortest3.avi"
 
    h, w = getVideoSize(source)
    camSet=camProperties()
@@ -316,9 +316,9 @@ if __name__ == '__main__':
    tk.Label(f1, text="Max Area").grid(column=1, row=0)
    tk.Label(f1, text="History").grid(column=2, row=0)
    tk.Label(f1, text="Threshold").grid(column=3, row=0)
-   minAreaSk = Scale(f1, from_=3000, to=0,variable=settingsCon['minArea'],length=400)
+   minAreaSk = Scale(f1, from_=5000, to=0,variable=settingsCon['minArea'],length=400)
    minAreaSk.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
-   maxAreaSk = Scale(f1, from_=7000, to=0,variable=settingsCon['maxArea'],length=400)
+   maxAreaSk = Scale(f1, from_=15000, to=0,variable=settingsCon['maxArea'],length=400)
    maxAreaSk.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
    history = Scale(f1, from_=300, to=0,variable=settingsCon['bgHistory'],length=400)
    history.grid(column=2, row=1,rowspan =9, sticky=('S', 'N'))
