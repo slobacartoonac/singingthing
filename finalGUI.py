@@ -42,6 +42,10 @@ def debugMode():
         debug = debug % 2
         if debug==0:
                 cv2.destroyAllWindows()
+def showFreq(fff):
+        if fff!=None:
+                        tx='Frequency is: %d'%int(fff)
+                        settingsCon['freq'].set(tx)
 
 def getProcMet(var, input):
         v = var.get()
@@ -53,8 +57,7 @@ def getProcMet(var, input):
         if v == 1:
                  output=manualDetect.manualDetect(input, background, debug)
                  fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
-                 if fff!=None:
-                     settingsCon['freq'].set(int(fff))
+                 showFreq(fff)
                  return output[0]
         elif v == 2:
                 output=bgSubtraction.bgSubtraction(input, (), debug)
@@ -62,9 +65,7 @@ def getProcMet(var, input):
                 #print "calling ", output[1]
                 fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
                 #print fff
-                if fff!=None:
-                        #print "NO"
-                        settingsCon['freq'].set(int(fff))
+                showFreq(fff)
                 #else :print "BUG"
                 #print "bilosta"
                 #if(output[1]==(0,0)):
@@ -76,15 +77,13 @@ def getProcMet(var, input):
         elif v == 3:
                 output=haarcascades.haarcascades(input, 1, debug)
                 fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
-                if fff!=None:
-                        settingsCon['freq'].set(int(fff))
+                showFreq(fff)
                 return output[0]
                 
         else:
                 output=hogDetect.hogDetect(input, (), ())
                 fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
-                if fff!=None:
-                        settingsCon['freq'].set(int(fff))
+                showFreq(fff)
                 return output[0]
 
 
@@ -245,7 +244,7 @@ if __name__ == '__main__':
    settingsCon['maxArea'] = IntVar()
    settingsCon['bgHistory'] = IntVar()
    settingsCon['bgTresh'] = IntVar()
-   settingsCon['freq'] = IntVar()
+   settingsCon['freq'] = StringVar()
    settingsCon['minArea'].set('1000')
    settingsCon['maxArea'].set('5000')
    settingsCon['bgHistory'].set('10')
