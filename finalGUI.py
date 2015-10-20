@@ -44,8 +44,11 @@ def debugMode():
                 cv2.destroyAllWindows()
 def showFreq(fff):
         if fff!=None:
-                        tx='Frequency is: %d'%int(fff)
-                        settingsCon['freq'].set(tx)
+                        tf='Frequency is: %d'%int(fff[2])
+                        txy='Coordinates of object are: %.2f and %.2f'%fff[0],fff[1]
+                        settingsCon['freq'].set(tf)
+                        settingsCon['xy'].set(txy)
+                        
 
 def getProcMet(var, input):
         v = var.get()
@@ -245,6 +248,7 @@ if __name__ == '__main__':
    settingsCon['bgHistory'] = IntVar()
    settingsCon['bgTresh'] = IntVar()
    settingsCon['freq'] = StringVar()
+   settingsCon['xy'] = StringVar()
    settingsCon['minArea'].set('1000')
    settingsCon['maxArea'].set('5000')
    settingsCon['bgHistory'].set('10')
@@ -300,6 +304,8 @@ if __name__ == '__main__':
    #Video Size Label
    size_label = tk.Label(frame, text = videoSize)
    size_label.grid(column= 0, row=1,sticky = W)
+   size_label = tk.Label(frame, textvariable = settingsCon['xy'])
+   size_label.grid(column= 0, row=2,sticky = W)
    # Sound freq indicator
    sound_label = tk.Label(frame2, textvariable = settingsCon['freq'])
    sound_label.grid(column=0, row=11)
