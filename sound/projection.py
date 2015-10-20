@@ -19,6 +19,8 @@ class cammera:
         self.height=float(height)
         self.bottom_distance=float(distance)
         self.bottom_angle=math.atan(self.bottom_distance/self.height)
+    def set_fov(self,fovx,fovy):
+        self.fov_x,self.fov_y=fovx,fovy
     def get_distance_radian(self,radian):
         res=math.tan(radian)*self.height
         #print "y cord: ",res
