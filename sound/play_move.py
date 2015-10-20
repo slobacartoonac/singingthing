@@ -106,13 +106,13 @@ def motion(event,cam,settingsP):
         last=time.time()
         if event==(0,0):
             #print "nista nista nista"
-            return updateMotion((0,0,-1),settingsP)
+            return (0,0,updateMotion((0,0,-1),settingsP))
         #print "pre"
         ny=cam.get_distance_pixel(cam.res_y-y)
         #print "posle"
         nx=cam.get_cord_pixel(ny,x)
-        print('{}, {}'.format(int(nx), int(ny)))
-        return updateMotion((nx,ny,diffrence),settingsP)
+        #print('{}, {}'.format(int(nx), int(ny)))
+        return (nx,ny,updateMotion((nx,ny,diffrence),settingsP))
 def end():
     que.put(-1)
     quein.put((-1,))

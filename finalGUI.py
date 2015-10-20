@@ -215,7 +215,7 @@ if __name__ == '__main__':
 
    settingsCon = singleton.settings()
    
-   source =  "fortest3.avi"
+   source =  "final2.avi"
 
    h, w = getVideoSize(source)
    camSet=camProperties()
