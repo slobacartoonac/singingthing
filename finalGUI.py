@@ -45,7 +45,7 @@ def debugMode():
 def showFreq(fff):
         if fff!=None:
                         tf='Frequency is: %d'%int(fff[2])
-                        txy='Coordinates of object are: %.2f and %.2f'%fff[0],fff[1]
+                        txy='Coordinates of object are: %.2f and %.2f'%(fff[0],fff[1])
                         settingsCon['freq'].set(tf)
                         settingsCon['xy'].set(txy)
                         
@@ -215,7 +215,7 @@ if __name__ == '__main__':
 
    settingsCon = singleton.settings()
    
-   source =  "final2.avi"
+   source =  "fortest3.avi"
 
    h, w = getVideoSize(source)
    camSet=camProperties()
