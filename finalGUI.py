@@ -19,6 +19,7 @@ sys.path.append("sound")
 import play_move
 import projection
 import singleton
+import math
 
 
 global tmpImg
@@ -115,6 +116,8 @@ def camProperties():
                 dc=float((var[3][:-1]))
                 print 'close'
                 f.close()
+                prmsg = (x*math.pi/180, y*math.pi/180, hc, dc)
+                print prmsg
                 return (x*math.pi/180, y*math.pi/180, hc, dc)
 
         except:
@@ -334,7 +337,7 @@ if __name__ == '__main__':
    audioRate.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
    positionBuff = Scale(f3, from_=10, to=3,variable=settingsCon['positionBuff'],length=400)
    positionBuff.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
-   creators = tk.Label(root, textvariable=settingsCon['banner'], width= 30)
+   creators = tk.Label(root, textvariable=settingsCon['banner'], width= 30, justify=LEFT)#, wraplength=200)
    creators.grid(column = 2, row=1 , sticky=E)
 
    print 'GUI image label initialized...'
