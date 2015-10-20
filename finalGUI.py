@@ -19,6 +19,7 @@ sys.path.append("sound")
 import play_move
 import projection
 import singleton
+import math
 
 
 global tmpImg
@@ -115,6 +116,8 @@ def camProperties():
                 dc=float((var[3][:-1]))
                 print 'close'
                 f.close()
+                prmsg = (x*math.pi/180, y*math.pi/180, hc, dc)
+                print prmsg
                 return (x*math.pi/180, y*math.pi/180, hc, dc)
 
         except:
@@ -202,7 +205,7 @@ def getVideoSize(source):
         vidFile.release()
 
 if __name__ == '__main__':
-   source =  "final.avi"
+   source =  "fortest3.avi"
    
    h, w = getVideoSize(source)
    camSet=camProperties()
