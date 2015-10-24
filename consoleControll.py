@@ -97,10 +97,13 @@ if __name__ == '__main__':
            print 'data gaddered'
            f = open("settings.txt", "w")
            f.writelines(setdata)
+           f.close()
            #print newdata.get()
         
        except:
            print 'data save failed'
+      
+       root.destroy()
 
    def ende():
        save()
@@ -131,16 +134,16 @@ if __name__ == '__main__':
    frame2.grid(row=0, column=1)
    # Controll buttons
    tk.Button(frame2, text='CAPTURE', command=lambda: runImg(), height=5, width=20).grid(row=0, column=0)
-   tk.Button(frame2, text='DEBUG  ', command=lambda: debugMode(), height=5, width=20).grid(row=1, column=0, sticky = N)
-   tk.Button(frame2, text='QUIT   ', command=lambda: save(), height=5, width=20).grid(row=3, column=0, sticky = N)
+   #tk.Button(frame2, text='DEBUG  ', command=lambda: debugMode(), height=5, width=20).grid(row=1, column=0, sticky = N)
+   tk.Button(frame2, text='QUIT   ', command=lambda: save(), height=5, width=20).grid(row=1, column=0, sticky = N)
    # Mode buttons
-   mod1Btn=Radiobutton(frame2, text="Mode 1", variable=var1, value=1, indicatoron = 0,width = 14,padx = 20,).grid(row=4, column=0,sticky=('W', 'E'))#, sticky=W)  
-   Radiobutton(frame2, text="Mode 2", variable=var1, value=2, indicatoron = 0,width = 14,padx = 20,).grid(row=5, column=0,sticky=('W', 'E'))#, sticky=W)
-   Radiobutton(frame2, text="Mode 3", variable=var1, value=3, indicatoron = 0,width = 14,padx = 20,).grid(row=6, column=0,sticky=('W', 'E'))#, sticky=W)
-   Radiobutton(frame2, text="Mode 4", variable=var1, value=4, indicatoron = 0,width = 14,padx = 20,).grid(row=7, column=0,sticky=('W', 'E'))#, sticky=W)
+   mod1Btn=Radiobutton(frame2, text="Mode 1", variable=var1, value=1, indicatoron = 0,width = 14,padx = 20,).grid(row=2, column=0,sticky=N)#, sticky=W)  
+   Radiobutton(frame2, text="Mode 2", variable=var1, value=2, indicatoron = 0,width = 14,padx = 20,).grid(row=3, column=0,sticky=N)#, sticky=W)
+   Radiobutton(frame2, text="Mode 3", variable=var1, value=3, indicatoron = 0,width = 14,padx = 20,).grid(row=4, column=0,sticky=N)#, sticky=W)
+   Radiobutton(frame2, text="Mode 4", variable=var1, value=4, indicatoron = 0,width = 14,padx = 20,).grid(row=5, column=0,sticky=N)#, sticky=W)
    # Volume
-   tk.Checkbutton(frame2, text="Mute", variable=mute,indicatoron = 0).grid(column=0, row=8, sticky=('W', 'E'))
-   pBtn=tk.Checkbutton(frame2, text="Play", variable=newdata,indicatoron = 0).grid(column=0, row=9, sticky=('W', 'E'))
+   #tk.Checkbutton(frame2, text="Mute", variable=mute,indicatoron = 0).grid(column=0, row=8, sticky=('W', 'E'))
+   #pBtn=tk.Checkbutton(frame2, text="Play", variable=newdata,indicatoron = 0).grid(column=0, row=9, sticky=('W', 'E'))
 
    tk.Button(frame2, text='CONFIGURE   ', command=lambda: settingsWindow.settingsWindow(), height=2, width=20).grid(row=10, column=0, sticky = N)
 
@@ -191,6 +194,5 @@ if __name__ == '__main__':
    print 'image capture process has started...'
    root.after(150, bannerF)
    root.mainloop()
-   save()
    print 'mainloop exit'
    print 'image capture process exit'
