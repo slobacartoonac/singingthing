@@ -13,7 +13,7 @@ def start_sin(q):
     p = pyaudio.PyAudio()
 
 
-    CHUNK = 1024*2
+    CHUNK = 1024
     BITRATE =16000*2
     FREQUENCY =700.0;
     ramping=210;
@@ -37,14 +37,12 @@ def start_sin(q):
     pos=0;
     while data != '':
         data='';
-        soundlevel=equalsound.eqlevel(yp,70)#/150*127
-        if(soundlevel>127):soundlevel=127
+        diference=(y-yp)/CHUNK/4
         for x in xrange(CHUNK):
-            diference=(y-yp)/CHUNK/4
             yp+=diference
-            dividor=2.0/BITRATE*(yp)*math.pi
+            dividor=1.0/BITRATE*(yp)*math.pi
             pos+=dividor;
-            data = data+chr(int(math.sin(pos)*soundlevel+128))
+            data = data+chr(int(math.sin(pos)*127.0+128))
         #print diference
         if x>maxd: maxd=x;
         if x<mind: mind=x;
@@ -54,7 +52,6 @@ def start_sin(q):
             pom=q.get_nowait()
             y=pom;
 
-                
         except:
             y=y
         if(y<0):
@@ -71,8 +68,8 @@ def start_sin(q):
 if __name__=='__main__':
     que=Queue.Queue()
     thread.start_new_thread(start_sin,(que,))
-    que.put(40)
+    que.put(400)
     time.sleep(2)
-    que.put(80)
+    que.put(800)
     time.sleep(2)
     que.put(-1)

@@ -1,7 +1,8 @@
 import Tkinter as tk
 import time
-import threading
-import Queue
+#import threading
+from multiprocessing import Process, Queue
+#import Queue
 import sys
 import math
 #sys.path.append("sound1")
@@ -13,14 +14,12 @@ from projection import cammera
 last=time.time()
 lastp=None
 playing=None
-que=Queue.Queue()
-quein=Queue.Queue()
+que=Queue()
 buf=[]
 cam=None
 ycord=None
 def distance(a,b):
     return math.sqrt((a[0]-b[0])*(a[0]-b[0])+(a[1]-b[1])*(a[1]-b[1]))
-
 
 def updateSound(dist,difference,settingsP):
     
@@ -28,14 +27,14 @@ def updateSound(dist,difference,settingsP):
     global playing
     if not playing:
         print "created thread"
-        playing=threading.Thread(target=start_sin, args = (que,))
+        playing=Process(target=start_sin, args = (que,))
         playing.start()
     f=0;
     speed= dist/difference/10
     if(speed>settingsP[0]):
         f=settingsP[2]
         f+=(settingsP[3]-settingsP[2])/(settingsP[1]-settingsP[0])*(speed-settingsP[0])
-    print "speed: ",speed,"->f: ",f
+    #print "speed: ",speed,"->f: ",f
     if(f<20): f=0
     if(f>settingsP[3]): f=settingsP[3]
     #print "set F: "+str(f)
@@ -115,7 +114,6 @@ def motion(event,cam,settingsP):
         return (nx,ny,updateMotion((nx,ny,diffrence),settingsP))
 def end():
     que.put(-1)
-    quein.put((-1,))
 #planer=threading.Thread(target=updateMotion, args = (quein,))
 #planer.start()
 if __name__=='__main__':
