@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
    def runImg():
 
-       os.system("args.py %d %d %d %d %d %d %d %d %d %d %d"%(var1.get(),minAreaSk.get(),maxArea.get(),\
+       os.system("console.py %d %d %d %d %d %d %d %d %d %d %d"%(var1.get(),minAreaSk.get(),maxArea.get(),\
                                   bgHistory.get(),bgTresh.get(),minSpeed.get(),maxSpeed.get(),\
                                   minFreq.get(),maxFreq.get(),audioRate.get(), positionBuff.get()))
    

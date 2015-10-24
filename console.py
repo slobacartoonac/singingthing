@@ -1,4 +1,4 @@
-
+#!/usr/bin/python
 #from Tkinter import *
 import threading
 import Queue
@@ -131,7 +131,7 @@ class StringVar:
         return self.val
 
 if __name__ == '__main__':
-
+   args=sys.argv     
    settingsCon = singleton.settings()
    
    source =  0#"final2.avi"
@@ -145,7 +145,7 @@ if __name__ == '__main__':
 
    queue = Queue.Queue(maxsize=5)
    var1 = IntVar()
-   var1.set('0')
+   
    settingsCon['mute'] = IntVar()
    settingsCon['minArea'] = IntVar()
    settingsCon['maxArea'] = IntVar()
@@ -175,6 +175,19 @@ if __name__ == '__main__':
    settingsCon['newdata'].set('1')
    settingsCon['debug']=IntVar()
    settingsCon['debug'].set('0')
+   if(len(args)==12):
+           var1.set(args[1])
+           settingsCon['minArea'].set(args[2])
+           settingsCon['maxArea'].set(args[3])
+           settingsCon['bgHistory'].set(args[4])
+           settingsCon['bgTresh'].set(args[5])
+           settingsCon['minSpeed'].set(args[6])
+           settingsCon['maxSpeed'].set(args[7])
+           settingsCon['minFreq'].set(args[8])
+           settingsCon['maxFreq'].set(args[9])
+           settingsCon['audioRate'].set(args[10])
+           settingsCon['positionBuff'].set(args[11])
+
    
    print settingsCon['minArea']
    print settingsCon['maxArea']
@@ -192,13 +205,13 @@ if __name__ == '__main__':
              
              if settingsCon['newdata'].get():
                      flag, frame=vidFile.read()
-                     frame=getProcMet(var1,frame)
-                     try:
+             frame=getProcMet(var1,frame)
+             try:
                              cv2.putText(frame,settingsCon['freq'].get(), (10,25), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
                              cv2.putText(frame,settingsCon['xy'].get(), (10,50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
                              cv2.putText(frame,"mode "+str(var1.get()), (10,75), cv2.FONT_HERSHEY_SIMPLEX, 0.5, 255)
                              cv2.imshow("done",frame)
-                     except:
+             except:
                              e=1
              #print "pokazi"
              k=cv2.waitKey(7)
