@@ -174,7 +174,7 @@ if __name__ == '__main__':
    tk.Label(f2, text="Max Freq").grid(column=3, row=0)
    tk.Label(f3, text="Audio Rate").grid(column=0, row=0)
    tk.Label(f3, text="Buffer").grid(column=1, row=0)
-   minSpeedSk = Scale(f2, from_=10, to=0,variable=minSpeed,length=400)
+   minSpeedSk = Scale(f2, from_=10, to=0,variable=minSpeed,length=400,resolution=0.2)
    minSpeedSk.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
    maxSpeedSk = Scale(f2, from_=20, to=5,variable=maxSpeed,length=400)
    maxSpeedSk.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
