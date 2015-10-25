@@ -52,6 +52,6 @@ def manualDetect(input, bgrnd, debug):
                                 cv2.imshow('Mask',mask)
                         return (image,minv)
                 except:
-                        print 'Image grab failed'
+                        #print 'Image grab failed'
                         return ('',(0,0))
 

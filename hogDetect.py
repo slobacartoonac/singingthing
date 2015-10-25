@@ -47,11 +47,11 @@ def hogDetect(input, v, debug):
                         found_filtered.append(r)
                 draw_detections(img, found)
                 minv=draw_detections(img, found_filtered, 3)
-                print '%d (%d) found' % (len(found_filtered), len(found))
+                #print '%d (%d) found' % (len(found_filtered), len(found))
                 input = img
                 return (input,minv)
            
         
         except:
-            print 'loading error'
+            #print 'loading error'
             return ('',(0,0))

@@ -19,16 +19,16 @@ cascadeClassifier2 = cv2.CascadeClassifier(classifier2)
 
 def haarcascades(input, v, debug):
     
-    print 'haarcascades'
+    #print 'haarcascades'
     # Create the haar cascade
-    print 'classifier'
+    #print 'classifier'
     try:
         # Read the image
         minv=(0,0)
         #image = cv2.imread(imagePath)
         gray = cv2.cvtColor(input, cv2.COLOR_BGR2GRAY)
 
-        print 'bgr to gray'
+        #print 'bgr to gray'
         # Detect faces in the image
         if v==1:
             classifier=cascadeClassifier1
@@ -41,9 +41,9 @@ def haarcascades(input, v, debug):
             minSize=(30, 30),
             flags = cv2.CASCADE_SCALE_IMAGE
         )
-        print 'detects'
+        #print 'detects'
 
-        print "Found {0} faces!".format(len(detects))
+        #print "Found {0} faces!".format(len(detects))
 
         # Draw a rectangle around the faces
         for (x, y, w, h) in detects:
@@ -51,13 +51,13 @@ def haarcascades(input, v, debug):
             cv2.circle(input,(x + w/2, y + h/2),2,(0, 0, 255),-1)
             if y+h>minv[1]:
                     minv=(x + w/2, y + h)
-        print 'rect drawn'
+        #print 'rect drawn'
         #cv2.imshow("Faces found", image)
        
         if debug==1:
                 cv2.imshow('Gray', gray)
         return (input,minv)
     except:
-        print 'Image grab failed.'
+        #print 'Image grab failed.'
         return ('',(0,0))
             

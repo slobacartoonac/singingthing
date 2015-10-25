@@ -28,7 +28,7 @@ def bgSubtraction(input, v, debug):
         if settingsCon['bgHistoryOld']!=settingsCon['bgHistory'].get() or settingsCon['bgTreshOld']!=settingsCon['bgTresh'].get():
                 h=int(settingsCon['bgHistory'].get())
                 t=int(settingsCon['bgTresh'].get())
-                print h," --- ",t
+                #print h," --- ",t
                 settingsCon['objBackS'] = cv2.createBackgroundSubtractorMOG2(h, t, 0)
                 settingsCon['bgHistoryOld']=settingsCon['bgHistory'].get()
                 settingsCon['bgTreshOld']=settingsCon['bgTresh'].get()
@@ -57,5 +57,5 @@ def bgSubtraction(input, v, debug):
                 return (input,minv)
                 
         except:
-                print 'Image grab failed.'
+                #print 'Image grab failed.'
                 return (input,(0,0))
