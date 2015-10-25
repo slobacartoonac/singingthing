@@ -40,6 +40,7 @@ if __name__ == '__main__':
            minFreq.set(settings[11][:-1])
            maxFreq.set(settings[12][:-1])
            audioRate.set(settings[13][:-1])
+           positionBuff.set(settings[14][:-1])
            newdata.set(0)
            mute.set(0)
            #newdata.set(settings[15][:-1])
