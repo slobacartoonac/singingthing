@@ -104,7 +104,7 @@ if __name__ == '__main__':
        except:
            print 'data save failed'
       
-       root.destroy()
+       #root.destroy()
 
    def ende():
        save()
@@ -134,9 +134,9 @@ if __name__ == '__main__':
    frame2= Frame(root, height=500, width=500)
    frame2.grid(row=0, column=1)
    # Controll buttons
-   tk.Button(frame2, text='CAPTURE', command=lambda: runImg(), height=5, width=20).grid(row=0, column=0)
+   tk.Button(frame2, text='SAVE', command=lambda: save(), height=5, width=20).grid(row=0, column=0)
    #tk.Button(frame2, text='DEBUG  ', command=lambda: debugMode(), height=5, width=20).grid(row=1, column=0, sticky = N)
-   tk.Button(frame2, text='QUIT   ', command=lambda: save(), height=5, width=20).grid(row=1, column=0, sticky = N)
+   tk.Button(frame2, text='QUIT   ', command=lambda: root.destroy(), height=5, width=20).grid(row=1, column=0, sticky = N)
    # Mode buttons
    mod1Btn=Radiobutton(frame2, text="Mode 1", variable=var1, value=1, indicatoron = 0,width = 14,padx = 20,).grid(row=2, column=0,sticky=N)#, sticky=W)  
    Radiobutton(frame2, text="Mode 2", variable=var1, value=2, indicatoron = 0,width = 14,padx = 20,).grid(row=3, column=0,sticky=N)#, sticky=W)
