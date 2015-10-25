@@ -53,7 +53,7 @@ def setValues():
            settingsCon['minSpeed'].set(settings[9][:-1])
            settingsCon['maxSpeed'].set(settings[10][:-1])
            settingsCon['minFreq'].set(settings[11][:-1])
-           settingsCon['maxFreq'].set(settings[11][:-1])
+           settingsCon['maxFreq'].set(settings[12][:-1])
            settingsCon['audioRate'].set(settings[13][:-1])
            settingsCon['positionBuff'].set(settings[14][:-1])
            #newdata.set(settings[15][:-1])
