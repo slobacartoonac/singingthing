@@ -66,13 +66,55 @@ def updateMotion(inn,settingsP):
         s2=((s1[0]-buf[0][0])/last,(s1[1]-buf[0][1])/last)
         
         #print "b"
-        s1=((s1[1] - buf[last][0])/last ,(s1[1] - buf[last][1])/last)
+        s1=((s1[0] - buf[last][0])/last ,(s1[1] - buf[last][1])/last)
         #print "c ", s1,s2
         dist=distance(s1,s2)
         res=updateSound(dist,time,settingsP)
         if middle:
             #print "utisavam"
             buf.append((s2[0],s2[1],time*2));
+            #print "utisao"
+            #print "distance/time/f: ",dist, time,res
+        #print "d"
+        
+        
+        return res
+def updateMotion1(inn,settingsP):
+        #print "updateMotion"
+        #print inn,' ',inn[2]!=-1
+        middle=False
+        if(inn[2]!=-1):
+            #print "regular: ",inn
+            buf.append(inn)
+        else:
+            middle=True
+        while len(buf)>settingsP[5]:
+            buf.pop(0)
+        if(len(buf)<2):
+            return 0
+        s1l=0
+        s1r=0
+        time=0
+        for i in buf:
+            s1l+=i[0]
+            s1r+=i[1]
+            time+=i[2]
+        time=float(time/len(buf))
+        #print "averafe time: ",time
+        #print "time: ",time," ",len(buf)
+        last=len(buf)-1
+        #print "a"
+        #print buf
+        ts2=((s1l-buf[0][0])/last,(s1r-buf[0][1])/last)
+        
+        #print "b"
+        ts1=((s1l - buf[last][0])/last ,(s1r - buf[last][1])/last)
+        #print "c ", s1,s2
+        dist=distance(ts1,ts2)
+        res=updateSound(dist,time,settingsP)
+        if middle:
+            #print "utisavam"
+            buf.append((ts2[0],ts2[1],time*2));
             #print "utisao"
             #print "distance/time/f: ",dist, time,res
         #print "d"
