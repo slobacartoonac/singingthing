@@ -186,14 +186,14 @@ if __name__ == '__main__':
    audioRateSk.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
    positionBuffSk = Scale(f3, from_=10, to=3,variable=positionBuff,length=400)
    positionBuffSk.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
-   creators = tk.Label(root, textvariable=banner, width= 30, justify=LEFT)#, wraplength=200)
-   creators.grid(column = 2, row=1 , sticky=E)
+   #creators = tk.Label(root, textvariable=banner, width= 30, justify=LEFT)#, wraplength=200)
+   #creators.grid(column = 2, row=1 , sticky=E)
 
 
    setValues()
    print 'GUI image label initialized...'
    print 'image capture process has started...'
-   root.after(150, bannerF)
+   #root.after(150, bannerF)
    root.mainloop()
    print 'mainloop exit'
    print 'image capture process exit'
