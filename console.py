@@ -64,7 +64,7 @@ def getProcMet(var, input):
                   float(settingsCon['audioRate'].get()),float(settingsCon['positionBuff'].get()),settingsCon['mute'].get())
         global background
         if v == 1:
-                 print "m1"
+                 #print "m1"
                  if background==None:
                         background = input
                  output=manualDetect.manualDetect(input, background, int(settingsCon['debug'].get()))
@@ -74,7 +74,7 @@ def getProcMet(var, input):
         elif v == 2:
                 if background!=None:
                         background = None
-                print "m2"
+                #print "m2"
                 output=bgSubtraction.bgSubtraction(input, (), int(settingsCon['debug'].get()))
                 #print "bilopre"
                 #print "calling ", output[1]
@@ -85,7 +85,7 @@ def getProcMet(var, input):
                 return output[0]
 
         elif v == 3:
-                print "m3"
+                #print "m3"
                 output=haarcascades.haarcascades(input, 1, int(settingsCon['debug'].get()))
                 fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
                 showFreq(fff)
@@ -94,7 +94,7 @@ def getProcMet(var, input):
         else:
                 if background!=None:
                         background = None
-                print "m0"
+                #print "m0"
                 output=hogDetect.hogDetect(input, (), ())
                 fff=play_move.motion(output[1],settingsCon['ccam'],settPlay)
                 showFreq(fff)
@@ -145,6 +145,7 @@ if __name__ == '__main__':
 
    queue = Queue.Queue(maxsize=5)
    var1 = IntVar()
+   var1.set('2')
    
    settingsCon['mute'] = IntVar()
    settingsCon['minArea'] = IntVar()
