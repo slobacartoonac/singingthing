@@ -30,7 +30,7 @@ def updateSound(dist,difference,settingsP):
         playing=Process(target=start_sin, args = (que,))
         playing.start()
     f=0;
-    speed= dist/difference/10
+    speed= dist/difference
     if(speed>settingsP[0]):
         f=settingsP[2]
         f+=(settingsP[3]-settingsP[2])/(settingsP[1]-settingsP[0])*(speed-settingsP[0])
