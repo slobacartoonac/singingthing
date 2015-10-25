@@ -38,11 +38,23 @@ def start_sin(q):
     while data != '':
         data='';
         diference=(y-yp)/CHUNK/4
-        for x in xrange(CHUNK):
-            yp+=diference
-            dividor=1.0/BITRATE*(yp)*math.pi
-            pos+=dividor;
-            data = data+chr(int(math.sin(pos)*127.0+128))
+        if diference>0:
+            if yp<40:
+                yp=40
+            for x in xrange(CHUNK):
+                yp+=diference
+                dividor=1.0/BITRATE*(yp)*math.pi
+                pos+=dividor;
+                data = data+chr(int(math.sin(pos)*127.0+128))
+        else:
+            for x in xrange(CHUNK):
+                yp+=diference
+                if yp<40:
+                    yp=0
+                    diference=0
+                dividor=1.0/BITRATE*(yp)*math.pi
+                pos+=dividor;
+                data = data+chr(int(math.sin(pos)*127.0+128))
         #print diference
         if x>maxd: maxd=x;
         if x<mind: mind=x;

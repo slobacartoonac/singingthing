@@ -163,7 +163,7 @@ if __name__ == '__main__':
    args=sys.argv     
    settingsCon = singleton.settings()
    
-   source =  0#"final2.avi"
+   source =  "final84angle.avi"
 
    h, w = getVideoSize(source)
    camSet=camProperties()
