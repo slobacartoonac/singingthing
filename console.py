@@ -24,6 +24,48 @@ import math
 
 background=None
 
+var1=None
+
+class IntVar:
+    def __init__(self):
+        self.val=0
+    def set(self,v):
+        self.val=float(v)
+    def get(self):
+        return self.val
+class StringVar:
+    def __init__(self):
+        self.val=""
+    def set(self,v):
+        self.val=v
+    def get(self):
+        return self.val
+
+def setValues():
+       try:
+           f=open("settings.txt")
+           settings=f.readlines()
+           f.close()
+           settingsCon['minArea'].set(settings[5][:-1])
+           settingsCon['maxArea'].set(settings[6][:-1])
+           settingsCon['bgHistory'].set(settings[7][:-1])
+           settingsCon['bgTresh'].set(settings[8][:-1])
+           settingsCon['minSpeed'].set(settings[9][:-1])
+           settingsCon['maxSpeed'].set(settings[10][:-1])
+           settingsCon['minFreq'].set(settings[11][:-1])
+           settingsCon['maxFreq'].set(settings[11][:-1])
+           settingsCon['audioRate'].set(settings[13][:-1])
+           settingsCon['positionBuff'].set(settings[14][:-1])
+           #newdata.set(settings[15][:-1])
+           print 'settings loaded'
+       except:   
+           var1.set('2')
+           print 'default values set'
+
+
+
+
+
 def camProperties():
 
         try:
@@ -115,20 +157,7 @@ def getVideoSize(source):
 
 
 settingsCon = singleton.settings()
-class IntVar:
-    def __init__(self):
-        self.val=0
-    def set(self,v):
-        self.val=float(v)
-    def get(self):
-        return self.val
-class StringVar:
-    def __init__(self):
-        self.val=""
-    def set(self,v):
-        self.val=v
-    def get(self):
-        return self.val
+
 
 if __name__ == '__main__':
    args=sys.argv     
@@ -144,6 +173,7 @@ if __name__ == '__main__':
    print videoSize
 
    queue = Queue.Queue(maxsize=5)
+   global var1
    var1 = IntVar()
    var1.set('2')
    
@@ -244,6 +274,8 @@ if __name__ == '__main__':
                      v+=1
                      v=v%2
                      settingsCon['debug'].set((v))
+             if k==ord('l'):
+                     setValues()
                      
              continue
    vidFile.release()
