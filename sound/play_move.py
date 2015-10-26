@@ -72,7 +72,8 @@ def updateMotion(inn,settingsP):
         res=updateSound(dist,time,settingsP)
         if middle:
             #print "utisavam"
-            buf.append((s2[0],s2[1],time*2));
+            #buf.append((s2[0],s1[1],time));
+            buf.append(buf[last])
             #print "utisao"
             #print "distance/time/f: ",dist, time,res
         #print "d"
@@ -145,6 +146,9 @@ def motion(event,cam,settingsP):
         #print('{}, {}'.format(x, y))
         diffrence=time.time()-last
         last=time.time()
+        if lastp!=None:
+            event=lastp
+            lastp=None
         if event==(0,0):
             #print "nista nista nista"
             return (0,0,updateMotion((0,0,-1),settingsP))
@@ -154,6 +158,10 @@ def motion(event,cam,settingsP):
         nx=cam.get_cord_pixel(ny,x)
         #print('{}, {}'.format(int(nx), int(ny)))
         return (nx,ny,updateMotion((nx,ny,diffrence),settingsP))
+    else:
+        if(event!=(0,0)):
+            lastp=event
+        
 def end():
     que.put(-1)
 #planer=threading.Thread(target=updateMotion, args = (quein,))
