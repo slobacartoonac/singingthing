@@ -269,15 +269,21 @@ if __name__ == '__main__':
                      v=int(settingsCon['newdata'].get())
                      v+=1
                      v=v%2
-                     settingsCon['newdata'].set((v))
+                     settingsCon['newdata'].set(v)
                      print "pause"
              if k==ord('b'):
                      v=int(settingsCon['debug'].get())
                      v+=1
                      v=v%2
-                     settingsCon['debug'].set((v))
+                     settingsCon['debug'].set(v)
              if k==ord('l'):
                      setValues()
+             if k==ord('m'):
+                     v=int(settingsCon['mute'].get())
+                     v+=1
+                     v=v%2
+                     print v
+                     settingsCon['mute'].set(v)
                      
              continue
    vidFile.release()
