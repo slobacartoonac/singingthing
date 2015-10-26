@@ -72,7 +72,8 @@ def updateMotion(inn,settingsP):
         res=updateSound(dist,time,settingsP)
         if middle:
             #print "utisavam"
-            buf.append((s2[0],s2[1],time*2));
+            #buf.append((s2[0],s1[1],time));
+            buf.append(buf[last])
             #print "utisao"
             #print "distance/time/f: ",dist, time,res
         #print "d"
@@ -136,7 +137,7 @@ def motionE(event):
         ny=cam.get_distance_pixel(ycord-y)
         nx=cam.get_cord_pixel(ny,x)
         #print('{}, {}'.format(int(nx), int(ny)))
-        updateMotion((nx,ny,diffrence))
+        updateMotion((nx,ny,diffrence),(0.5,10.0,50.0,200.0,10,5,0))
 def motion(event,cam,settingsP):
     #print "usaoUmoution"
     x, y = event[0],event[1]
@@ -145,6 +146,9 @@ def motion(event,cam,settingsP):
         #print('{}, {}'.format(x, y))
         diffrence=time.time()-last
         last=time.time()
+        if lastp!=None:
+            event=lastp
+            lastp=None
         if event==(0,0):
             #print "nista nista nista"
             return (0,0,updateMotion((0,0,-1),settingsP))
@@ -154,6 +158,10 @@ def motion(event,cam,settingsP):
         nx=cam.get_cord_pixel(ny,x)
         #print('{}, {}'.format(int(nx), int(ny)))
         return (nx,ny,updateMotion((nx,ny,diffrence),settingsP))
+    else:
+        if(event!=(0,0)):
+            lastp=event
+        
 def end():
     que.put(-1)
 #planer=threading.Thread(target=updateMotion, args = (quein,))
@@ -168,10 +176,6 @@ if __name__=='__main__':
     label.image = photo # keep a reference!
     label.pack()
     label.bind('<Motion>', motionE)
-
-
-
-
     root.mainloop()
     end()
     playing.join()

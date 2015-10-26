@@ -46,6 +46,8 @@ def setValues():
            f=open("settings.txt")
            settings=f.readlines()
            f.close()
+           settingsCon['ccam'].set_fov(float(settings[0][:-1])*math.pi/180.0, float(settings[1][:-1])*math.pi/180.0)
+           settingsCon['ccam'].set_position(float(settings[2][:-1]), float(settings[3][:-1]))
            settingsCon['minArea'].set(settings[5][:-1])
            settingsCon['maxArea'].set(settings[6][:-1])
            settingsCon['bgHistory'].set(settings[7][:-1])
@@ -163,7 +165,7 @@ if __name__ == '__main__':
    args=sys.argv     
    settingsCon = singleton.settings()
    
-   source =  0#"final2.avi"
+   source =  0#"final84angle.avi"
 
    h, w = getVideoSize(source)
    camSet=camProperties()
