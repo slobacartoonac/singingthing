@@ -35,29 +35,59 @@ def start_sin(q):
     mind=CHUNK*2;
     maxd=CHUNK;
     pos=0;
+    state=0;
+    mulup=127.0/CHUNK
     while data != '':
         data='';
         diference=(y-yp)/CHUNK/4
-        if diference>0:
-            if yp<40:
-                yp=40
-            for x in xrange(CHUNK):
-                yp+=diference
-                dividor=1.0/BITRATE*(yp)*math.pi
-                pos+=dividor;
-                data = data+chr(int(math.sin(pos)*127.0+128))
+        if state==1:
+            if diference>0:
+                #normal riseing
+                for x in xrange(CHUNK):
+                    yp+=diference
+                    dividor=1.0/BITRATE*(yp)*math.pi
+                    pos+=dividor;
+                    data = data+chr(int(math.sin(pos)*127.0+128))
+            else:
+                #normal faling
+                if (yp+CHUNK*diference)<40:
+                    #normal end of sound
+                        diference=(40-yp)/CHUNK
+                        for x in xrange(CHUNK):
+                            yp+=diference
+                            dividor=1.0/BITRATE*(yp)*math.pi
+                            pos+=dividor;
+                            data = data+chr(int(math.sin(pos)*mulup*(CHUNK-x)+128))
+                        state=0
+                        yp=40
+                else:
+                    #normal just falling
+                    for x in xrange(CHUNK):
+                        yp+=diference
+                        dividor=1.0/BITRATE*(yp)*math.pi
+                        pos+=dividor;
+                        data = data+chr(int(math.sin(pos)*127.0+128))
         else:
-            for x in xrange(CHUNK):
-                yp+=diference
-                if yp<40:
-                    yp=0
-                    diference=0
-                dividor=1.0/BITRATE*(yp)*math.pi
-                pos+=dividor;
-                data = data+chr(int(math.sin(pos)*127.0+128))
+            if y>39:
+                #normal starting
+                yp=40
+                for x in xrange(CHUNK):
+                    yp+=diference
+                    dividor=1.0/BITRATE*(yp)*math.pi
+                    pos+=dividor;
+                    data = data+chr(int(math.sin(pos)*mulup*(x)+128))
+                state=1
+            else:
+                #normal no sound
+                dividor=1.0/BITRATE*(5)*math.pi 
+                for x in xrange(CHUNK):
+                    pos+=dividor;
+                    #data = data+chr(int(''';math.sin(pos)*0.5+'''128))
+                    data = data+chr(128)
+                
         #print diference
-        if x>maxd: maxd=x;
-        if x<mind: mind=x;
+        #if x>maxd: maxd=x;
+        #if x<mind: mind=x;
         #y+=0.3;
         stream.write(data)
         try:

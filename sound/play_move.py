@@ -136,7 +136,7 @@ def motionE(event):
         ny=cam.get_distance_pixel(ycord-y)
         nx=cam.get_cord_pixel(ny,x)
         #print('{}, {}'.format(int(nx), int(ny)))
-        updateMotion((nx,ny,diffrence))
+        updateMotion((nx,ny,diffrence),(0.5,10.0,50.0,200.0,10,5,0))
 def motion(event,cam,settingsP):
     #print "usaoUmoution"
     x, y = event[0],event[1]
