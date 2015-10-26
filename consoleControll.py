@@ -38,7 +38,8 @@ if __name__ == '__main__':
            minSpeed.set(settings[9][:-1])
            maxSpeed.set(settings[10][:-1])
            minFreq.set(settings[11][:-1])
-           maxFreq.set(settings[12][:-1])
+           maxFreq2.set((int(settings[12][:-1])/100)*100)
+           maxFreq.set(int(settings[12][:-1])%100)
            audioRate.set(settings[13][:-1])
            positionBuff.set(settings[14][:-1])
            newdata.set(0)
@@ -88,7 +89,7 @@ if __name__ == '__main__':
            print 'test'
            setdata[11]=str(minFreqSk.get())+'\n'
            print 'test'
-           setdata[12]=str(maxFreqSk.get())+'\n'
+           setdata[12]=str(int(maxFreqSk.get())+int(maxFreqSk2.get()))+'\n'
            print 'test'
            setdata[13]=str(audioRateSk.get())+'\n'
            print 'test'
@@ -126,6 +127,7 @@ if __name__ == '__main__':
    maxSpeed = IntVar()
    minFreq = IntVar()
    maxFreq = IntVar()
+   maxFreq2 = IntVar()
    audioRate = IntVar()
    positionBuff = IntVar()
    newdata=IntVar()
@@ -172,16 +174,19 @@ if __name__ == '__main__':
    tk.Label(f2, text="Max speed").grid(column=1, row=0)
    tk.Label(f2, text="Min Freq").grid(column=2, row=0)
    tk.Label(f2, text="Max Freq").grid(column=3, row=0)
+   tk.Label(f2, text="Max Freq").grid(column=4, row=0)
    tk.Label(f3, text="Audio Rate").grid(column=0, row=0)
    tk.Label(f3, text="Buffer").grid(column=1, row=0)
    minSpeedSk = Scale(f2, from_=10, to=0,variable=minSpeed,length=400,resolution=0.2)
    minSpeedSk.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
-   maxSpeedSk = Scale(f2, from_=20, to=5,variable=maxSpeed,length=400)
+   maxSpeedSk = Scale(f2, from_=20, to=1,variable=maxSpeed,length=400,resolution=0.5)
    maxSpeedSk.grid(column=1, row=1,rowspan =9, sticky=('S', 'N'))
    minFreqSk = Scale(f2, from_=2000, to=40,variable=minFreq,length=400)
    minFreqSk.grid(column=2, row=1,rowspan =9, sticky=('S', 'N'))
-   maxFreqSk = Scale(f2, from_=2000, to=40,variable=maxFreq,length=400)
+   maxFreqSk = Scale(f2, from_=100, to=0,variable=maxFreq,length=400)
    maxFreqSk.grid(column=3, row=1,rowspan =9, sticky=('S', 'N'))
+   maxFreqSk2 = Scale(f2, from_=7000, to=0,variable=maxFreq2,length=400,resolution=100)
+   maxFreqSk2.grid(column=4, row=1,rowspan =9, sticky=('S', 'N'))
    audioRateSk = Scale(f3, from_=30, to=1,variable=audioRate,length=400)
    audioRateSk.grid(column=0, row=1,rowspan =9, sticky=('S', 'N'))
    positionBuffSk = Scale(f3, from_=10, to=3,variable=positionBuff,length=400)
