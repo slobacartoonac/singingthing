@@ -89,7 +89,8 @@ def start_sin(q):
         #if x>maxd: maxd=x;
         #if x<mind: mind=x;
         #y+=0.3;
-        stream.write(data)
+        if(len(data)==CHUNK):
+            stream.write(data)
         try:
             pom=q.get_nowait()
             y=pom;

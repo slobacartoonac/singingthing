@@ -176,10 +176,6 @@ if __name__=='__main__':
     label.image = photo # keep a reference!
     label.pack()
     label.bind('<Motion>', motionE)
-
-
-
-
     root.mainloop()
     end()
     playing.join()
