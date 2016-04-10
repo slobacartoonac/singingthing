@@ -1,12 +1,12 @@
 #import Tkinter as tk
 import time
 #import threading
-from multiprocessing import Process, Queue
-#import Queue
+import thread
+import Queue
 import sys
 import math
 #sys.path.append("sound1")
-from tocall import start_sin
+import tocall
 #sys.path.append("geometry")
 from projection import cammera
 import walkerModul
@@ -15,7 +15,7 @@ import walkerModul
 last=time.time()
 lastp=None
 playing=None
-que=Queue()
+que=Queue.Queue()
 buf=[]
 cam=None
 ycord=None
@@ -23,7 +23,7 @@ ycord=None
 w=None
 
 wStime=0;
-print "ovo sranje se 2 puta poziva-----------------------------------------------------------------\n-----------------------------------------------"
+
 def distance(a,b):
     return math.sqrt((a[0]-b[0])*(a[0]-b[0])+(a[1]-b[1])*(a[1]-b[1]))
 
@@ -33,8 +33,10 @@ def updateSound(dist,difference,settingsP):
     global playing
     if not playing:
         print "created thread"
-        playing=Process(target=start_sin, args = (que,))
-        playing.start()
+        try:
+            playing=thread.start_new_thread(tocall.start_sin,(que,))
+        except:
+            mrk=True
     f=0;
     speed= dist/difference
     
@@ -49,7 +51,7 @@ def updateSound(dist,difference,settingsP):
         que.put(0)
     else:
         que.put(f)
-    #print "speed "+str(speed)+" -> "+str(f)+"f"
+        #print "speed "+str(speed)+" -> "+str(f)+"f"
     return f
 
 def updateMotion(inn,settingsP):
@@ -61,7 +63,7 @@ def updateMotion(inn,settingsP):
             w=walkerModul.Walkers(10,2,5,1,1)
             
         middle=False
-        if not (inn[2]==-1):
+        if not (inn[2]==-1 or (inn[0]==0 and inn[1]==0)):
             #print "naso"
             w.doDots((inn[0],inn[1]),time.time())
         #print "update"
